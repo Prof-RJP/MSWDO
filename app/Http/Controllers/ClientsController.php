@@ -66,15 +66,21 @@ class ClientsController extends Controller
             'fname' => ['required', 'string', 'max:50'],
             'mname' => ['nullable', 'string', 'max:50'],
             'lname' => ['required', 'string', 'max:50'],
+            'civil_status' => ['required','string','max:50'],
+            'occupation' => ['nullable','string','max:100'],
             'address' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
+            'educational_attainment' => ['nullable','string','max:100'],
         ]);
 
         Clients::create([
             'fname' => $request->fname,
             'mname' => $request->mname,
             'lname' => $request->lname,
+            'civil_status' => $request->civil_status,
+            'occupation' => $request->occupation,
+            'educational_attainment' => $request->educational_attainment,
             'address' => $request->address,
             'contact' => $request->contact,
             'gender' => $request->gender,
@@ -100,9 +106,13 @@ class ClientsController extends Controller
             'fname' => ['required', 'string', 'max:50'],
             'mname' => ['nullable', 'string', 'max:50'],
             'lname' => ['required', 'string', 'max:50'],
+            'civil_status' => ['required','string','max:50'],
+            'occupation' => ['nullable','string','max:100'],
             'address' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
+            'educational_attainment' => ['nullable','string','max:100'],
+
         ]);
 
         $client = Clients::findOrFail($id);

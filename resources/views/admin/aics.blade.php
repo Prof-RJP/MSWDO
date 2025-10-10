@@ -99,7 +99,7 @@
                         let search = this.q.toLowerCase();
                         let fullName = '';
                         if (i.client) {
-                            fullName = (i.client.fname + ' ' + (i.client.mname ?? ' ') + ' ' + i.client.lname)
+                            fullName = (i.client.fname + ' ' + (i.client.mname ?? '') + ' ' + i.client.lname)
                                 .toLowerCase();
                         }
                         return fullName.includes(search);

@@ -46,11 +46,12 @@
                 </svg>
                 <span>Client</span>
             </a>
-            <a href="{{ route('admin.AICS') }}" class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs()
+            <a href="{{ route('admin.AICS') }}"
+                class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('admin.AICS')
                     ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
                     : 'text-neutral-600 dark:text-neutral-300' }}">
-                <svg class="shrink-0 size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                     fill="currentColor" viewBox="0 0 20 20">
+                <svg class="shrink-0 size-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
                         d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z"
                         clip-rule="evenodd" />

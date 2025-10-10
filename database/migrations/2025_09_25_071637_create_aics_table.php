@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->string('principal_client');
-            $table->string('civil_status');
-            $table->string('occupation');
+            $table->string('diagnosis');
             $table->string('gis');
-            $table->string('educational_attainment');
             $table->timestamps();
         });
     }

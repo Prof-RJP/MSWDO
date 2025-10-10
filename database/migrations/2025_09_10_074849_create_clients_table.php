@@ -16,9 +16,12 @@ return new class extends Migration
             $table->string('fname');
             $table->string('mname')->nullable();
             $table->string('lname');
+            $table->string('civil_status');
+            $table->string('occupation');
             $table->string('contact');
             $table->string('gender');
             $table->string('address');
+            $table->string('educational_attainment');
             $table->timestamps();
         });
     }

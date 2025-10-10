@@ -37,27 +37,7 @@
                 <x-input-error :messages="$errors->get('principal_client')" class="mt-2" />
             </div>
 
-            <!-- Civil Status -->
-            <div class="mb-5">
-                <x-input-label for="civil_status" :value="__('Civil Status')" />
-                <select id="civil_status" name="civil_status"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                    <option value="">-- Select --</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Widowed">Widowed</option>
-                    <option value="Separated">Separated</option>
-                </select>
-                <x-input-error :messages="$errors->get('civil_status')" class="mt-2" />
-            </div>
 
-            <!-- Occupation -->
-            <div class="mb-5">
-                <x-input-label for="occupation" :value="__('Occupation')" />
-                <x-text-input id="occupation" class="block mt-1 w-full"
-                              type="text" name="occupation" :value="old('occupation')" />
-                <x-input-error :messages="$errors->get('occupation')" class="mt-2" />
-            </div>
 
             <!-- GIS -->
             <div class="mb-5">
@@ -71,21 +51,16 @@
                 </select>
                 <x-input-error :messages="$errors->get('gis')" class="mt-2" />
             </div>
-
-            <!-- Educational Attainment -->
+            <!-- DIAGNOSIS -->
             <div class="mb-5">
-                <x-input-label for="educational_attainment" :value="__('Educational Attainment')" />
-                <select id="educational_attainment" name="educational_attainment"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                    <option value="">-- Select --</option>
-                    <option value="Elementary">Elementary</option>
-                    <option value="High School">High School</option>
-                    <option value="College">College</option>
-                    <option value="Post Graduate">Post Graduate</option>
-                    <option value="Vocational">Vocational</option>
-                </select>
-                <x-input-error :messages="$errors->get('educational_attainment')" class="mt-2" />
+                <x-input-label for="diagnosis" :value="__('Diagnosis')" />
+                <x-text-input id="diagnosis" class="block mt-1 w-full"
+                              type="text" name="diagnosis" :value="old('diagnosis')" />
+                <x-input-error :messages="$errors->get('diagnosis')" class="mt-2" />
             </div>
+
+
+
 
             <!-- Submit -->
             <button type="submit"

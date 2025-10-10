@@ -23,10 +23,8 @@ class AicsController extends Controller
     $request->validate([
         'client_id' => 'required|exists:clients,id',
         'principal_client' => 'required|string|max:100',
-        'civil_status' => 'required|string|max:50',
-        'occupation' => 'nullable|string|max:100',
+        'diagnosis' => 'required|string|max:100',
         'gis' => 'nullable|string|max:100',
-        'educational_attainment' => 'nullable|string|max:100',
     ]);
 
     Aics::create($request->all());

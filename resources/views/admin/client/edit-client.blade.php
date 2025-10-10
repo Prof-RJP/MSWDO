@@ -17,7 +17,7 @@
             @method('PUT')
 
             <!-- Names -->
-            <div class="flex flex-row gap-5 mb-5">
+            <div class="flex sm:flex-row flex-col gap-5 mb-5">
                 <div class="flex-1">
                     <x-input-label for="lname" :value="__('Last Name')" />
                     <x-text-input id="lname" class="block mt-1 w-full" type="text" name="lname"
@@ -41,12 +41,27 @@
             </div>
 
             <!-- Address / Contact / Gender -->
-            <div class="flex flex-row gap-5 mb-5">
+            <div class="flex sm:flex-row flex-col gap-5 mb-5">
                 <div class="flex-1">
-                    <x-input-label for="address" :value="__('Address')" />
-                    <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
-                        value="{{ old('address', $client->address) }}" autocomplete="address" />
-                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                    <x-input-label for="civil_status" :value="__('Civil Status')" />
+                    <select id="civil_status" name="civil_status"
+                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">-- Select --</option>
+                        <option value="Single"
+                            {{ old('civil_status', $client->civil_status) == 'Single' ? 'selected' : '' }}>Single
+                        </option>
+                        <option value="Married"
+                            {{ old('civil_status', $client->civil_status) == 'Married' ? 'selected' : '' }}>Married
+                        </option>
+                        <option value="Widowed"
+                            {{ old('civil_status', $client->civil_status) == 'Widowed' ? 'selected' : '' }}>Widowed
+                        </option>
+                        <option value="Separated"
+                            {{ old('civil_status', $client->civil_status) == 'Separated' ? 'selected' : '' }}>Separated
+                        </option>
+                    </select>
+                    <x-input-error :messages="$errors->get('civil_status')" class="mt-2" />
+
                 </div>
 
                 <div class="flex-1">
@@ -60,17 +75,50 @@
                     <x-input-label for="gender" :value="__('Gender')" />
                     <select id="gender" name="gender"
                         class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="MALE" {{ old('gender', $client->gender) == 'MALE' ? 'selected' : '' }}>MALE</option>
-                        <option value="FEMALE" {{ old('gender', $client->gender) == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
-                        <option value="OTHER" {{ old('gender', $client->gender) == 'OTHER' ? 'selected' : '' }}>OTHER</option>
+                        <option value="MALE" {{ old('gender', $client->gender) == 'MALE' ? 'selected' : '' }}>MALE
+                        </option>
+                        <option value="FEMALE" {{ old('gender', $client->gender) == 'FEMALE' ? 'selected' : '' }}>
+                            FEMALE</option>
+                        <option value="OTHER" {{ old('gender', $client->gender) == 'OTHER' ? 'selected' : '' }}>OTHER
+                        </option>
                     </select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                 </div>
             </div>
+            <div class="mb-5">
+
+                <x-input-label for="address" :value="__('Address')" />
+                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
+                    value="{{ old('address', $client->address) }}" autocomplete="address" />
+                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+            </div>
+
+            <!-- Occupation -->
+            <div class="mb-5">
+                <x-input-label for="occupation" :value="__('Occupation')" />
+                <x-text-input id="occupation" class="block mt-1 w-full" type="text" name="occupation"
+                    :value="old('occupation')" value="{{ old('address', $client->occupation) }}"/>
+                <x-input-error :messages="$errors->get('occupation')" class="mt-2" />
+            </div>
+            <!-- Educational Attainment -->
+            <div>
+                <div class="mb-5">
+                    <x-input-label for="educational_attainment" :value="__('Educational Attainment')" />
+                    <select id="educational_attainment" name="educational_attainment"
+                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
+                        <option value="">-- Select --</option>
+                        <option value="Elementary" {{ old('educational_attainment', $client->educational_attainment) == "Elementary" ? 'selected': '' }}>Elementary</option>
+                        <option value="High School" {{ old('educational_attainment', $client->educational_attainment) == "High School" ? 'selected': '' }}>High School</option>
+                        <option value="College" {{ old('educational_attainment', $client->educational_attainment) == "College" ? 'selected': '' }}>College</option>
+                        <option value="Post Graduate" {{ old('educational_attainment', $client->educational_attainment) == "Post Graduate" ? 'selected': '' }}>Post Graduate</option>
+                        <option value="Vocational" {{ old('educational_attainment', $client->educational_attainment) == "Vocational" ? 'selected': '' }}>Vocational</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('educational_attainment')" class="mt-2" />
+                </div>
+            </div>
 
             <!-- Submit -->
-            <button type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow">
                 Update Client
             </button>
         </form>

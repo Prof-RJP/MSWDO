@@ -9,9 +9,7 @@ class Aics extends Model
     protected $fillable=[
         'client_id',
         'principal_client',
-        'civil_status',
-        'occupation',
-        'educational_attainment',
+        'diagnosis',
         'gis'
     ];
 
