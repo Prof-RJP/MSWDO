@@ -45,18 +45,41 @@ class AicsController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'principal_client' => 'required|string|max:100',
-            'diagnosis' => 'required|string|max:100',
-            'gis' => 'nullable|string|max:100',
-        ]);
+{
+    $request->validate([
+        'client_id' => 'required|exists:clients,id',
+        'principal_client' => 'required|string|max:100',
+        'diagnosis' => 'required|string|max:100',
+        'gis' => 'required|string|max:100', // must specify assistance type
+    ]);
 
-        Aics::create($request->all());
+    // Check last AICS record for the same client and same type of assistance
+    $lastAics = Aics::where('client_id', $request->client_id)
+        ->where('gis', $request->gis)
+        ->latest('created_at')
+        ->first();
 
-        return redirect()->route('admin.AICS')->with('success', 'AICS record added successfully.');
+    if ($lastAics) {
+        $monthsSinceLast = now()->diffInMonths($lastAics->created_at);
+
+        // If less than 3 months since last assistance, block creation
+        if ($monthsSinceLast < 3) {
+            return redirect()->back()->withInput()->with('error',
+                "This client is not yet eligible for another {$request->gis} assistance. Please wait until 3 months have passed.");
+        }
     }
+
+    // Create new AICS record
+    Aics::create([
+        'client_id' => $request->client_id,
+        'principal_client' => $request->principal_client,
+        'diagnosis' => $request->diagnosis,
+        'gis' => $request->gis,
+    ]);
+
+    return redirect()->route('admin.AICS')->with('success', 'AICS record added successfully.');
+}
+
 
     public function edit($id)
     {
