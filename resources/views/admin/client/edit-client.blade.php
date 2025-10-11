@@ -2,125 +2,120 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Update Clients') }}
+                {{ __('Edit Client Information') }}
             </h2>
-            <a href="{{ route('admin.client') }}" class="bg-green-700 text-white px-3 py-2 rounded-lg">
-                <i class="fas fa-angle-left"></i>
+            <a href="{{ route('admin.client') }}"
+                class="flex items-center bg-green-700 hover:bg-green-800 text-white px-3 py-2 rounded-lg transition duration-200">
+                <i class="fas fa-angle-left mr-1"></i> Back
             </a>
         </div>
     </x-slot>
 
-    <div class="m-5 p-5 bg-white shadow-md rounded-md">
-        <!-- Update Client Form -->
-        <form action="{{ route('client.update', $client->id) }}" method="POST">
+    <div class="max-w-5xl mx-auto mt-6 bg-white shadow-lg rounded-lg p-8 border border-gray-100">
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">Update Client Details</h3>
+        <p class="text-gray-500 mb-6">Modify the client’s information below and click <b>Update Client</b> to save changes.</p>
+
+        <form action="{{ route('client.update', $client->id) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
             <!-- Names -->
-            <div class="flex sm:flex-row flex-col gap-5 mb-5">
-                <div class="flex-1">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div>
                     <x-input-label for="lname" :value="__('Last Name')" />
-                    <x-text-input id="lname" class="block mt-1 w-full" type="text" name="lname"
-                        value="{{ old('lname', $client->lname) }}" autocomplete="lname" />
+                    <x-text-input id="lname" name="lname" type="text" class="w-full"
+                        value="{{ old('lname', $client->lname) }}" />
                     <x-input-error :messages="$errors->get('lname')" class="mt-2" />
                 </div>
 
-                <div class="flex-1">
+                <div>
                     <x-input-label for="fname" :value="__('First Name')" />
-                    <x-text-input id="fname" class="block mt-1 w-full" type="text" name="fname"
-                        value="{{ old('fname', $client->fname) }}" autocomplete="fname" />
+                    <x-text-input id="fname" name="fname" type="text" class="w-full"
+                        value="{{ old('fname', $client->fname) }}" />
                     <x-input-error :messages="$errors->get('fname')" class="mt-2" />
                 </div>
 
-                <div class="flex-1">
+                <div>
                     <x-input-label for="mname" :value="__('Middle Name')" />
-                    <x-text-input id="mname" class="block mt-1 w-full" type="text" name="mname"
-                        value="{{ old('mname', $client->mname) }}" autocomplete="mname" />
+                    <x-text-input id="mname" name="mname" type="text" class="w-full"
+                        value="{{ old('mname', $client->mname) }}" />
                     <x-input-error :messages="$errors->get('mname')" class="mt-2" />
                 </div>
             </div>
 
-            <!-- Address / Contact / Gender -->
-            <div class="flex sm:flex-row flex-col gap-5 mb-5">
-                <div class="flex-1">
+            <!-- Civil Status / Contact / Gender -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div>
                     <x-input-label for="civil_status" :value="__('Civil Status')" />
                     <select id="civil_status" name="civil_status"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
+                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
                         <option value="">-- Select --</option>
-                        <option value="Single"
-                            {{ old('civil_status', $client->civil_status) == 'Single' ? 'selected' : '' }}>Single
-                        </option>
-                        <option value="Married"
-                            {{ old('civil_status', $client->civil_status) == 'Married' ? 'selected' : '' }}>Married
-                        </option>
-                        <option value="Widowed"
-                            {{ old('civil_status', $client->civil_status) == 'Widowed' ? 'selected' : '' }}>Widowed
-                        </option>
-                        <option value="Separated"
-                            {{ old('civil_status', $client->civil_status) == 'Separated' ? 'selected' : '' }}>Separated
-                        </option>
+                        @foreach(['Single', 'Married', 'Widowed', 'Separated'] as $status)
+                            <option value="{{ $status }}" {{ old('civil_status', $client->civil_status) == $status ? 'selected' : '' }}>
+                                {{ $status }}
+                            </option>
+                        @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('civil_status')" class="mt-2" />
-
                 </div>
 
-                <div class="flex-1">
+                <div>
                     <x-input-label for="contact" :value="__('Contact Number')" />
-                    <x-text-input id="contact" class="block mt-1 w-full" type="text" name="contact"
-                        value="{{ old('contact', $client->contact) }}" autocomplete="contact" />
+                    <x-text-input id="contact" name="contact" type="text" class="w-full"
+                        value="{{ old('contact', $client->contact) }}" />
                     <x-input-error :messages="$errors->get('contact')" class="mt-2" />
                 </div>
 
-                <div class="flex-1">
+                <div>
                     <x-input-label for="gender" :value="__('Gender')" />
                     <select id="gender" name="gender"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="MALE" {{ old('gender', $client->gender) == 'MALE' ? 'selected' : '' }}>MALE
-                        </option>
-                        <option value="FEMALE" {{ old('gender', $client->gender) == 'FEMALE' ? 'selected' : '' }}>
-                            FEMALE</option>
-                        <option value="OTHER" {{ old('gender', $client->gender) == 'OTHER' ? 'selected' : '' }}>OTHER
-                        </option>
+                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
+                        @foreach(['MALE', 'FEMALE', 'OTHER'] as $g)
+                            <option value="{{ $g }}" {{ old('gender', $client->gender) == $g ? 'selected' : '' }}>{{ $g }}</option>
+                        @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                 </div>
             </div>
-            <div class="mb-5">
 
+            <!-- Address -->
+            <div>
                 <x-input-label for="address" :value="__('Address')" />
-                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
-                    value="{{ old('address', $client->address) }}" autocomplete="address" />
+                <x-text-input id="address" name="address" type="text" class="w-full"
+                    value="{{ old('address', $client->address) }}" />
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
 
             <!-- Occupation -->
-            <div class="mb-5">
+            <div>
                 <x-input-label for="occupation" :value="__('Occupation')" />
-                <x-text-input id="occupation" class="block mt-1 w-full" type="text" name="occupation"
-                    :value="old('occupation')" value="{{ old('address', $client->occupation) }}"/>
+                <x-text-input id="occupation" name="occupation" type="text" class="w-full"
+                    value="{{ old('occupation', $client->occupation) }}" />
                 <x-input-error :messages="$errors->get('occupation')" class="mt-2" />
             </div>
+
             <!-- Educational Attainment -->
             <div>
-                <div class="mb-5">
-                    <x-input-label for="educational_attainment" :value="__('Educational Attainment')" />
-                    <select id="educational_attainment" name="educational_attainment"
-                        class="block mt-1 w-full border-gray-300 rounded-md shadow-sm">
-                        <option value="">-- Select --</option>
-                        <option value="Elementary" {{ old('educational_attainment', $client->educational_attainment) == "Elementary" ? 'selected': '' }}>Elementary</option>
-                        <option value="High School" {{ old('educational_attainment', $client->educational_attainment) == "High School" ? 'selected': '' }}>High School</option>
-                        <option value="College" {{ old('educational_attainment', $client->educational_attainment) == "College" ? 'selected': '' }}>College</option>
-                        <option value="Post Graduate" {{ old('educational_attainment', $client->educational_attainment) == "Post Graduate" ? 'selected': '' }}>Post Graduate</option>
-                        <option value="Vocational" {{ old('educational_attainment', $client->educational_attainment) == "Vocational" ? 'selected': '' }}>Vocational</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('educational_attainment')" class="mt-2" />
-                </div>
+                <x-input-label for="educational_attainment" :value="__('Educational Attainment')" />
+                <select id="educational_attainment" name="educational_attainment"
+                    class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
+                    <option value="">-- Select --</option>
+                    @foreach(['Elementary', 'High School', 'College', 'Post Graduate', 'Vocational'] as $level)
+                        <option value="{{ $level }}" {{ old('educational_attainment', $client->educational_attainment) == $level ? 'selected' : '' }}>
+                            {{ $level }}
+                        </option>
+                    @endforeach
+                </select>
+                <x-input-error :messages="$errors->get('educational_attainment')" class="mt-2" />
             </div>
 
             <!-- Submit -->
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow">
-                Update Client
-            </button>
+            <div class="flex justify-end">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md shadow transition duration-200">
+                    <i class="fas fa-save mr-2"></i> Update Client
+                </button>
+            </div>
         </form>
     </div>
 </x-app-layout>
