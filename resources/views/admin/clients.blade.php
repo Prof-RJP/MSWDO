@@ -4,77 +4,54 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Clients') }}
             </h2>
-            <a href="{{ route('admin.add-client') }}"
-                class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow transition">
-                <i class="fas fa-plus"></i>
-                <span>Add Client</span>
+            <a href="{{ route('admin.add-client') }}" class="bg-green-700 text-white px-3 py-2 rounded-lg">
+                <i class="fas fa-plus"></i> Add Client
             </a>
         </div>
     </x-slot>
 
-    <div class="max-w-6xl mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Client List</h1>
+    <div class="m-5 p-5 bg-white shadow-md rounded-md">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h1 class="font-bold text-2xl">Client Page</h1>
+                <p class="italic text-gray-500">Manage and update client information.</p>
+            </div>
 
-        <!-- Search Bar -->
-        <form method="GET" action="{{ route('admin.client') }}" class="mb-4 flex">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search..."
-                class="border rounded-l px-3 py-2 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none">
-            <button type="submit"
-                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r shadow transition">
-                Search
-            </button>
-        </form>
+            <!-- Search Form -->
+            <form method="GET" action="{{ route('admin.client') }}" class="flex items-center space-x-2">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search clients..."
+                    class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
+                <button type="submit" class="bg-green-700 text-white px-3 py-1 rounded-lg">Search</button>
+            </form>
+        </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto bg-white shadow rounded-lg">
-            <table class="w-full border border-gray-200 rounded-lg overflow-hidden">
-                <thead class="bg-gray-100 text-gray-700 uppercase text-sm font-semibold text-center">
+        <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border">
+                <thead class="bg-gray-100 text-gray-700">
                     <tr>
                         @php
-                            function sortLink($field, $label, $sortField, $sortDirection)
-                            {
-                                $direction = $sortField === $field && $sortDirection === 'asc' ? 'desc' : 'asc';
-                                $icon = '';
-                                if ($sortField === $field) {
-                                    $icon = $sortDirection === 'asc' ? '↑' : '↓';
-                                }
-                                return "<a href='?sort=$field&direction=$direction' class='flex justify-center items-center gap-1 hover:text-blue-600 transition'>$label $icon</a>";
+                            function sort_link($column, $label, $sort, $direction) {
+                                $newDir = ($sort === $column && $direction === 'asc') ? 'desc' : 'asc';
+                                $arrow = $sort === $column ? ($direction === 'asc' ? '↑' : '↓') : '';
+                                return "<a href='?sort={$column}&direction={$newDir}' class='flex items-center'>{$label} {$arrow}</a>";
                             }
                         @endphp
 
-                        <th class="px-4 py-3 border">{!! sortLink('id', 'ID', $sortField, $sortDirection) !!}</th>
-                        <th class="px-4 py-3 border">{!! sortLink('full_name', 'Full Name', $sortField, $sortDirection) !!}</th>
-                        <th class="px-4 py-3 border">{!! sortLink('address', 'Address', $sortField, $sortDirection) !!}</th>
-                        <th class="px-4 py-3 border">{!! sortLink('contact', 'Contact', $sortField, $sortDirection) !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sort_link('id', '#', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sort_link('full_name', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sort_link('address', 'Address', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sort_link('contact', 'Contact', $sortField ?? '', $sortDirection ?? '') !!}</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-700 text-sm divide-y divide-gray-200">
-                    @forelse($clients as $client)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-4 py-3 text-center">
-                                <a href="{{ route('client.edit', $client->id) }}"
-                                    class="block hover:text-blue-600">
-                                    {{ $client->id }}
-                                </a>
-                            </td>
-                            <td class="px-4 py-3">
-                                <a href="{{ route('client.edit', $client->id) }}"
-                                    class="block hover:text-blue-600">
-                                    {{ $client->full_name }}
-                                </a>
-                            </td>
-                            <td class="px-4 py-3">
-                                <a href="{{ route('client.edit', $client->id) }}"
-                                    class="block hover:text-blue-600">
-                                    {{ $client->address }}
-                                </a>
-                            </td>
-                            <td class="px-4 py-3">
-                                <a href="{{ route('client.edit', $client->id) }}"
-                                    class="block hover:text-blue-600">
-                                    {{ $client->contact }}
-                                </a>
-                            </td>
+                <tbody class="divide-y">
+                    @forelse ($clients as $client)
+                        <tr class="hover:bg-gray-50 cursor-pointer"
+                            onclick="window.location='{{ route('client.edit', $client->id) }}'">
+                            <td class="px-4 py-3">{{ $client->id }}</td>
+                            <td class="px-4 py-3 uppercase">{{ $client->full_name }}</td>
+                            <td class="px-4 py-3 uppercase">{{ $client->address }}</td>
+                            <td class="px-4 py-3">{{ $client->contact }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -83,11 +60,11 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
 
-        <!-- Pagination -->
-        <div class="mt-6">
-            {{ $clients->links() }}
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $clients->appends(request()->query())->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

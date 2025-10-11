@@ -18,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/clients', [ClientsController::class, 'show'])->name('admin.client');
+    Route::get('/clients', [ClientsController::class, 'index'])->name('admin.client');
     Route::get('/clients/add-client', [ClientsController::class, 'create'])->name('admin.add-client');
     Route::post('/clients/store', [ClientsController::class, 'store'])->name('client.store');
     Route::get('/client/{client}/aics', [ClientsController::class, 'view'])->name('client.view-AICS');
@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/AICS', [AicsController::class, 'show'])->name('admin.AICS');
     Route::get('/AICS/add-AICS', [AicsController::class, 'create'])->name('admin.add-AICS');
     Route::post('/AICS/add-AICS/store', [AicsController::class, 'store'])->name('AICS.store');
+    Route::get('/AICS/{id}/edit',[AicsController::class,'edit'])->name('AICS.edit');
+    Route::put('/AICS/{id}/update',[AicsController::class,'update'])->name('AICS.update');
 });
 
 require __DIR__ . '/auth.php';

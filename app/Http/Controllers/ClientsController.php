@@ -9,52 +9,39 @@ use Illuminate\Http\Request;
 
 class ClientsController extends Controller
 {
-    public function show(Request $request)
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+        $sortField = $request->input('sort', 'id');
+        $sortDirection = $request->input('direction', 'asc');
+
+        // Validate sorting direction
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'asc';
+        }
+
+        // Query with optional search filter
         $query = Clients::query();
 
-        // Base query with full_name column
-        $query = Clients::selectRaw("
-            id,
-            address,
-            contact,
-            CASE
-                WHEN mname IS NULL OR mname = ''
-                THEN CONCAT(lname, ', ', fname)
-                ELSE CONCAT(lname, ', ', fname, ' ', mname)
-            END as full_name
-        ");
-
-        // Search filter (searching in full_name + address + contact)
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
+        if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->whereRaw("
-                    CASE
-                        WHEN mname IS NULL OR mname = ''
-                        THEN CONCAT(lname, ', ', fname)
-                        ELSE CONCAT(lname, ', ', fname, ' ', mname)
-                    END LIKE ?
-                ", ["%$search%"])
-                    ->orWhere('address', 'like', "%$search%")
-                    ->orWhere('contact', 'like', "%$search%");
+                $q->where('fname', 'like', "%{$search}%")
+                  ->orWhere('mname', 'like', "%{$search}%")
+                  ->orWhere('lname', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%")
+                  ->orWhere('contact', 'like', "%{$search}%");
             });
         }
 
-        // Sorting
-        $sortField = $request->get('sort', 'id');
-        $sortDirection = $request->get('direction', 'asc');
-
-        // Make sure only allowed columns can be sorted
-        $allowedSorts = ['id', 'full_name', 'address', 'contact'];
-        if (!in_array($sortField, $allowedSorts)) {
-            $sortField = 'id';
+        // Add sorting
+        if (in_array($sortField, ['id', 'fname', 'lname', 'address', 'contact'])) {
+            $query->orderBy($sortField, $sortDirection);
         }
 
-        $clients = $query->orderBy($sortField, $sortDirection)
-            ->paginate(10)
-            ->appends($request->all());
-        return view('admin.clients', compact('clients', 'sortField', 'sortDirection'));
+        // Optional accessor for full name in model
+        $clients = $query->paginate(10)->appends($request->query());
+
+        return view('admin.clients', compact('clients', 'sortField', 'sortDirection', 'search'));
     }
     public function create()
     {

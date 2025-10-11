@@ -17,4 +17,9 @@ class Clients extends Model
         'contact',
         'gender',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return trim("{$this->fname} {$this->mname} {$this->lname}");
+    }
 }

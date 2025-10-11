@@ -10,7 +10,9 @@ class Aics extends Model
         'client_id',
         'principal_client',
         'diagnosis',
-        'gis'
+        'gis',
+        'created_at',
+        'updated_at'
     ];
 
     public function client()
