@@ -58,6 +58,7 @@ class ClientsController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
+            'birthdate' => ['required', 'string', 'max:255'],
             'educational_attainment' => ['nullable','string','max:100'],
         ]);
 
@@ -65,6 +66,7 @@ class ClientsController extends Controller
             'fname' => $request->fname,
             'mname' => $request->mname,
             'lname' => $request->lname,
+            'birthdate' => $request->birthdate,
             'civil_status' => $request->civil_status,
             'occupation' => $request->occupation,
             'educational_attainment' => $request->educational_attainment,
@@ -98,6 +100,7 @@ class ClientsController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
+            'birthdate' => ['required', 'string', 'max:255'],
             'educational_attainment' => ['nullable','string','max:100'],
 
         ]);

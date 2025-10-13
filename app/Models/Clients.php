@@ -14,6 +14,7 @@ class Clients extends Model
         'occupation',
         'educational_attainment',
         'address',
+        'birthdate',
         'contact',
         'gender',
     ];

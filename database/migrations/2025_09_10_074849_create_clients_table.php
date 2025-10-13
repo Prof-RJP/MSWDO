@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('lname');
             $table->string('civil_status');
             $table->string('occupation');
+            $table->string('birthdate')->nullable();
             $table->string('contact');
             $table->string('gender');
             $table->string('address');

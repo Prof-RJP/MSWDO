@@ -5,7 +5,7 @@
                 {{ __('Add Client') }}
             </h2>
             <a href="{{ route('admin.client') }}"
-               class="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transition-all">
+                class="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transition-all">
                 <i class="fas fa-angle-left"></i>
                 <span>Back</span>
             </a>
@@ -44,7 +44,7 @@
             </div>
 
             <!-- Contact, Gender, Civil Status -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                     <x-input-label for="civil_status" :value="__('Civil Status')" />
                     <select id="civil_status" name="civil_status"
@@ -75,6 +75,11 @@
                         <option value="OTHER">Other</option>
                     </select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="birthdate" :value="__('Birthdate')" />
+                    <input type="date" name="birthdate"
+                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
                 </div>
             </div>
 

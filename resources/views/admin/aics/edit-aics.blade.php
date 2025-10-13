@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <!-- Assistance Type -->
+            {{-- <!-- Assistance Type -->
             <div>
                 <x-input-label for="assistance_type" :value="__('Type of Assistance')" />
                 <select name="assistance_type" id="assistance_type"
@@ -78,7 +78,7 @@
                     <option value="Other Assistance" {{ old('assistance_type', $aics->assistance_type ?? '') == 'Other Assistance' ? 'selected' : '' }}>Other Assistance</option>
                 </select>
                 <x-input-error :messages="$errors->get('assistance_type')" class="mt-2" />
-            </div>
+            </div> --}}
 
             <!-- Date -->
             <div>

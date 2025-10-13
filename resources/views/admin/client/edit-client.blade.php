@@ -44,7 +44,7 @@
             </div>
 
             <!-- Civil Status / Contact / Gender -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                 <div>
                     <x-input-label for="civil_status" :value="__('Civil Status')" />
                     <select id="civil_status" name="civil_status"
@@ -75,6 +75,12 @@
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="birthdate" :value="__('Birthdate')" />
+                    <input type="date" name="birthdate" value="{{ old('birthdate', $client->birthdate) }}"
+                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
+                        <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
                 </div>
             </div>
 
