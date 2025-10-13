@@ -38,7 +38,6 @@
                             }
                         @endphp
 
-                        <th class="px-4 py-3 text-left">{!! sort_link('id', '#', $sort, $direction) !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('client_id', 'Client Name', $sort, $direction) !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('principal_client', 'Principal Client', $sort, $direction) !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('gis', 'GIS', $sort, $direction) !!}</th>
@@ -48,7 +47,6 @@
                 <tbody class="divide-y">
                     @foreach ($aics as $aic)
                         <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.location='{{ route('AICS.edit', $aic->id) }}'">
-                            <td class="px-4 py-3">{{ $aic->id }}</td>
                             <td class="px-4 py-3 uppercase">
                                 {{ $aic->client ? $aic->client->fname . ' ' . ($aic->client->mname ?? '') . ' ' . $aic->client->lname : '' }}
                             </td>

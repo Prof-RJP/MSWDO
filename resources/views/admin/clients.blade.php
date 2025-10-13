@@ -38,20 +38,16 @@
                             }
                         @endphp
 
-                        <th class="px-4 py-3 text-left">{!! sort_link('id', '#', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('full_name', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('address', 'Address', $sortField ?? '', $sortDirection ?? '') !!}</th>
-                        <th class="px-4 py-3 text-left">{!! sort_link('contact', 'Contact', $sortField ?? '', $sortDirection ?? '') !!}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y">
                     @forelse ($clients as $client)
                         <tr class="hover:bg-gray-50 cursor-pointer"
                             onclick="window.location='{{ route('client.edit', $client->id) }}'">
-                            <td class="px-4 py-3">{{ $client->id }}</td>
                             <td class="px-4 py-3 uppercase">{{ $client->full_name }}</td>
                             <td class="px-4 py-3 uppercase">{{ $client->address }}</td>
-                            <td class="px-4 py-3">{{ $client->contact }}</td>
                         </tr>
                     @empty
                         <tr>

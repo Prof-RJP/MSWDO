@@ -18,6 +18,50 @@
 
         <form action="{{ route('client.store') }}" method="POST" class="space-y-6">
             @csrf
+            <!-- Camera Capture Section -->
+            <div x-data="cameraApp()" x-init="initCamera()" class="mt-8 border-t pt-6">
+
+                <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                    <i class="fas fa-camera text-blue-600"></i>
+                    Take Client Photo
+                </h2>
+
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Camera Preview -->
+                    <div class="flex flex-col items-center">
+                        <video x-ref="video" class="rounded-lg shadow-md border" width="320" height="240"
+                            autoplay></video>
+
+                        <button type="button" @click="capturePhoto"
+                            class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
+                            <i class="fas fa-camera mr-1"></i> Capture Photo
+                        </button>
+                    </div>
+
+                    <!-- Captured Image Preview -->
+                    <div class="flex flex-col items-center">
+                        <template x-if="photo">
+                            <img :src="photo" class="rounded-lg shadow-md border w-64 h-48 object-cover">
+                        </template>
+
+                        <template x-if="!photo">
+                            <div
+                                class="w-64 h-48 flex items-center justify-center border-2 border-dashed border-gray-300 text-gray-400 rounded-lg">
+                                No photo captured
+                            </div>
+                        </template>
+
+                        <button type="button" @click="retakePhoto" x-show="photo"
+                            class="mt-3 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg shadow transition">
+                            <i class="fas fa-redo mr-1"></i> Retake
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hidden input to submit base64 image -->
+                <input type="hidden" name="photo" x-model="photo">
+            </div>
+
 
             <!-- Name Fields -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

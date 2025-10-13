@@ -34,7 +34,7 @@ class ClientsController extends Controller
         }
 
         // Add sorting
-        if (in_array($sortField, ['id', 'fname', 'lname', 'address', 'contact'])) {
+        if (in_array($sortField, ['id', 'fname','mname', 'lname', 'address', 'contact'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 
