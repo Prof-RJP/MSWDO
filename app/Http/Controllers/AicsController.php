@@ -65,7 +65,7 @@ class AicsController extends Controller
         // If less than 3 months since last assistance, block creation
         if ($monthsSinceLast < 3) {
             return redirect()->back()->withInput()->with('error',
-                "This client is not yet eligible for another {$request->gis} assistance. Please wait until 3 months have passed.");
+                "This client is not yet eligible for another {$request->gis}. Please wait until 3 months have passed.");
         }
     }
 

@@ -1,4 +1,26 @@
 <x-app-layout>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                @if (session('success'))
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.onmouseenter = Swal.stopTimer;
+                            toast.onmouseleave = Swal.resumeTimer;
+                        }
+                    });
+                    Toast.fire({
+                        icon: "success",
+                        title: "{{ session('success') }}"
+                    });
+                @endif
+            });
+        </script>
+
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
