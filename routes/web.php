@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AicsController;
+use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SeniorCetizenController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/AICS/add-AICS/store', [AicsController::class, 'store'])->name('AICS.store');
     Route::get('/AICS/{id}/edit',[AicsController::class,'edit'])->name('AICS.edit');
     Route::put('/AICS/{id}/update',[AicsController::class,'update'])->name('AICS.update');
+
+    Route::get('/barangays',[BarangayController::class,'show'])->name('admin.barangay');
+    Route::get('/barangay/add-barangay',[BarangayController::class,'create'])->name('admin.add-barangay');
+    Route::post('/barangay/store',[BarangayController::class,'store'])->name('barangay.store');
+
+    Route::get('/seniorCetizens',[SeniorCetizenController::class, 'show'])->name('admin.senior');
+    Route::get('/seniorCetizens/{brgy_id}/barangay',[SeniorCetizenController::class, 'viewSenior'])->name('admin.view-senior');
+    Route::get('/seniorCetizens/add-senior',[SeniorCetizenController::class, 'create'])->name('admin.add-senior');
+    Route::post('/seniorCetizens/store',[SeniorCetizenController::class, 'store'])->name('senior.store');
 });
 
 require __DIR__ . '/auth.php';

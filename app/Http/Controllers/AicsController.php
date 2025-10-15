@@ -13,7 +13,7 @@ class AicsController extends Controller
         // Get search and sort parameters
         $search = $request->input('q');
         $sort = $request->input('sort', 'id');
-        $direction = $request->input('direction', 'asc');
+        $direction = $request->input('direction', 'desc');
 
         // Build query
         $query = Aics::with('client');
@@ -33,7 +33,7 @@ class AicsController extends Controller
         }
 
         // Execute query
-        $aics = $query->paginate(10); // Use pagination for better performance
+        $aics = $query->paginate(20); // Use pagination for better performance
 
         return view('admin.aics', compact('aics', 'search', 'sort', 'direction'));
     }

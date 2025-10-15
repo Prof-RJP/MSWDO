@@ -13,7 +13,7 @@ class ClientsController extends Controller
     {
         $search = $request->input('search');
         $sortField = $request->input('sort', 'id');
-        $sortDirection = $request->input('direction', 'asc');
+        $sortDirection = $request->input('direction', 'desc');
 
         // Validate sorting direction
         if (!in_array($sortDirection, ['asc', 'desc'])) {
@@ -39,7 +39,7 @@ class ClientsController extends Controller
         }
 
         // Optional accessor for full name in model
-        $clients = $query->paginate(10)->appends($request->query());
+        $clients = $query->paginate(20)->appends($request->query());
 
         return view('admin.clients', compact('clients', 'sortField', 'sortDirection', 'search'));
     }

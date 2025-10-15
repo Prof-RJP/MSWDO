@@ -58,6 +58,44 @@
                 </svg>
                 <span>AICS</span>
             </a>
+            <a href="{{ route('admin.senior') }}"
+                class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
+                    hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
+                    dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white
+                    {{ request()->routeIs('admin.senior')
+                        ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
+                        : 'text-neutral-600 dark:text-neutral-300' }}">
+
+                <!-- Senior Citizens Icon (Solid Style) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 shrink-0"
+                    aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M7 6a2 2 0 114 0 2 2 0 01-4 0ZM5.5 9A1.5 1.5 0 004 10.5v9a1 1 0 102 0v-4h1v4a1 1 0 102 0v-6h.25a.75.75 0 000-1.5H9v-1A2.5 2.5 0 006.5 9h-1ZM16 5a2 2 0 114 0 2 2 0 01-4 0Zm2.25 4A2.25 2.25 0 0016 11.25V21a1 1 0 102 0v-6h.5v6a1 1 0 102 0v-9.75A2.25 2.25 0 0018.25 9h-0.5Z" />
+                </svg>
+
+                <span>Senior Citizens</span>
+            </a>
+
+
+            <a href="{{ route('admin.barangay') }}"
+                class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
+                hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
+                dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white
+                {{ request()->routeIs('admin.barangay')
+                    ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
+                    : 'text-neutral-600 dark:text-neutral-300' }}">
+
+                <!-- Barangay Icon (Solid) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 shrink-0"
+                    aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M3 10.5a1 1 0 011-1h3.586l3-3A2 2 0 0112 6h0a2 2 0 011.414.586l3 3H20a1 1 0 011 1V20a1 1 0 01-1 1h-5v-5a2 2 0 00-2-2h-2a2 2 0 00-2 2v5H4a1 1 0 01-1-1v-9.5ZM10 21v-5h4v5h-4Z" />
+                </svg>
+
+                <span>Barangay</span>
+            </a>
+
+
             <a href=""
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('profile.edit')
                     ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'

@@ -19,7 +19,7 @@
         <form action="{{ route('client.store') }}" method="POST" class="space-y-6">
             @csrf
             <!-- Camera Capture Section -->
-            <div x-data="cameraApp()" x-init="initCamera()" class="mt-8 border-t pt-6">
+            {{-- <div x-data="cameraApp()" x-init="initCamera()" class="mt-8 border-t pt-6">
 
                 <h2 class="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
                     <i class="fas fa-camera text-blue-600"></i>
@@ -60,7 +60,7 @@
 
                 <!-- Hidden input to submit base64 image -->
                 <input type="hidden" name="photo" x-model="photo">
-            </div>
+            </div> --}}
 
 
             <!-- Name Fields -->
