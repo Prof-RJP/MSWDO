@@ -16,34 +16,42 @@ class SeniorCetizenController extends Controller
     }
 
     public function viewSenior(Request $request, $brgy_id)
-    {
-        $search = $request->input('search');
-        $sortField = $request->input('search', 'id');
-        $sortDirection = $request->input('direction', 'asc');
+{
+    $search = $request->input('search');
+    $sortField = $request->input('sort', 'id');
+    $sortDirection = $request->input('direction', 'asc');
 
-        if (!in_array($sortDirection, ['asc', 'desc'])) {
-            $sortDirection = 'asc';
-        }
-
-        $query = Seniors::query();
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('fname', 'like', "%{$search}%")
-                    ->orWhere('mname', 'like', "%{$search}%")
-                    ->orWhere('lname', 'like', "%{$search}%")
-                    ->orWhere('osca_id', 'like', "%{$search}%");
-            });
-        }
-
-        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'osca_id'])) {
-            $query->orderBy($sortField, $sortDirection);
-        }
-
-        $seniors = $query->paginate(20)->appends($request->query());
-        $barangay = Barangay::all();
-        return view('admin.seniorCetizens.view-seniors', compact('sortField', 'sortDirection', 'search', 'seniors', 'brgy_id', 'barangay'));
+    // Validate direction to avoid invalid inputs
+    if (!in_array($sortDirection, ['asc', 'desc'])) {
+        $sortDirection = 'asc';
     }
+
+    $query = Seniors::with('barangay') // ✅ eager load
+        ->where('brgy_id', $brgy_id);  // ✅ filter by barangay
+
+    // ✅ Search logic
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('fname', 'like', "%{$search}%")
+              ->orWhere('mname', 'like', "%{$search}%")
+              ->orWhere('lname', 'like', "%{$search}%")
+              ->orWhere('osca_id', 'like', "%{$search}%");
+        });
+    }
+
+    // ✅ Sorting logic
+    if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'osca_id', 'status'])) {
+        $query->orderBy($sortField, $sortDirection);
+    }
+
+    $seniors = $query->paginate(20)->appends($request->query());
+    $barangay = Barangay::all();
+
+    return view('admin.seniorCetizens.view-seniors', compact(
+        'sortField', 'sortDirection', 'search', 'seniors', 'brgy_id', 'barangay'
+    ));
+}
+
 
     public function create(Request $request){
         $barangay = Barangay::all();
@@ -79,6 +87,44 @@ class SeniorCetizenController extends Controller
             'age' => $age,
         ]);
         return redirect()->route('admin.senior', compact('age'))->with('success', 'Senior Cetizen added successfully!');
+
+    }
+    public function edit(Request $request,$id,$brgy_id){
+        $barangay = Barangay::all();
+        $age = Carbon::parse($request->birthdate)->age;
+        $seniors = Seniors::findOrFail($brgy_id);
+        return view('admin.seniorCetizens.update-senior',compact('seniors','barangay','age', 'id','brgy_id'));
+    }
+
+    public function update(Request $request,$id,$brgy_id){
+        $request->validate([
+            'fname' => 'required|string|max:50',
+            'mname' => 'nullable|string|max:50',
+            'osca_id' => 'required|integer',
+            'lname' => 'required|string|max:50',
+            'brgy_id' => 'required|integer|max:50',
+            'contact' => 'required|string|max:50',
+            'birthdate' => 'required|date|max:50',
+            'gender' => 'required|string|max:20',
+            'status' => 'required|string|max:10',
+            'age' => 'nullable|string|max:10',
+        ]);
+
+        $age = Carbon::parse($request->birthdate)->age;
+        $senior = Seniors::findOrFail($id);
+        $senior->update([
+            'fname' => $request->fname,
+            'mname' => $request->mname,
+            'lname' => $request->lname,
+            'osca_id' => $request->osca_id,
+            'brgy_id' => $request->brgy_id,
+            'contact' => $request->contact,
+            'birthdate' => $request->birthdate,
+            'gender' => $request->gender,
+            'status' => $request->status,
+            'age' => $age,
+        ]);
+        return redirect()->route('admin.view-senior', compact('age','brgy_id'))->with('success', 'Senior Cetizen added successfully!');
 
     }
 }

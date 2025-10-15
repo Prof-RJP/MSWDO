@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/seniorCetizens/{brgy_id}/barangay',[SeniorCetizenController::class, 'viewSenior'])->name('admin.view-senior');
     Route::get('/seniorCetizens/add-senior',[SeniorCetizenController::class, 'create'])->name('admin.add-senior');
     Route::post('/seniorCetizens/store',[SeniorCetizenController::class, 'store'])->name('senior.store');
+    Route::get('/seniorCetizens/{brgy_id}/edit/{id}',[SeniorCetizenController::class,'edit'])->name('senior.edit');
+    Route::put('/seniorCetizens/{brgy_id}/update/{id}',[SeniorCetizenController::class,'update'])->name('senior.update');
 });
 
 require __DIR__ . '/auth.php';

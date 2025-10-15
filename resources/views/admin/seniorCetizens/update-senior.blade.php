@@ -2,9 +2,9 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Add Senior Cetizens') }}
+                {{ __('Update Senior Cetizens') }}
             </h2>
-            <a href="{{ route('admin.senior') }}"
+            <a href="{{ route('admin.view-senior', $id) }}"
                 class="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transition-all">
                 <i class="fas fa-angle-left"></i>
                 <span>Back</span>
@@ -16,15 +16,15 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-2">Add Senior Cetizen</h1>
         <p class="text-gray-500 mb-6">Fill in the information below to register a Senior Cetizen.</p>
 
-        <form action="{{ route('senior.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('senior.update',['id'=>$id,'brgy_id'=>$brgy_id]) }}" method="POST" class="space-y-6">
             @csrf
-
+            @method('put')
             <!-- Address -->
             <div class="grid lg:grid-cols-2 gap-6">
 
                 <div>
                     <x-input-label for="osca_id" :value="__('OSCA ID')" />
-                    <x-text-input id="osca_id" name="osca_id" type="text" class="block w-full mt-1" />
+                    <x-text-input id="osca_id" name="osca_id" value="{{ old('osca_id',$seniors->osca_id) }}" type="text" class="block w-full mt-1" />
                     <x-input-error :messages="$errors->get('osca_id')" class="mt-2" />
 
                 </div>
@@ -34,7 +34,9 @@
                         class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
                         <option value="" disabled selected>--Select Barangay--</option>
                         @foreach ($barangay as $brgy)
-                            <option value="{{ $brgy->id }}">{{ $brgy->barangay }}</option>
+                            <option value="{{ $brgy->id }}"
+                                {{ old('brgy_id', $brgy->id) == $id ? 'selected' : '' }}>
+                                {{ $brgy->barangay }}</option>
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('brgy_id')" class="mt-2" />
@@ -47,21 +49,20 @@
                 <div>
                     <x-input-label for="lname" :value="__('Last Name')" />
                     <x-text-input id="lname" name="lname" type="text" class="block w-full mt-1"
-                        value="{{ old('lname') }}" />
+                        value="{{ old('lname',$seniors->lname) }}" />
                     <x-input-error :messages="$errors->get('lname')" class="mt-2" />
                 </div>
-
                 <div>
                     <x-input-label for="fname" :value="__('First Name')" />
                     <x-text-input id="fname" name="fname" type="text" class="block w-full mt-1"
-                        value="{{ old('fname') }}" />
+                        value="{{ old('fname',$seniors->fname) }}" />
                     <x-input-error :messages="$errors->get('fname')" class="mt-2" />
                 </div>
 
                 <div>
                     <x-input-label for="mname" :value="__('Middle Name')" />
                     <x-text-input id="mname" name="mname" type="text" class="block w-full mt-1"
-                        value="{{ old('mname') }}" />
+                        value="{{ old('mname',$seniors->mname) }}" />
                     <x-input-error :messages="$errors->get('mname')" class="mt-2" />
                 </div>
             </div>
@@ -73,23 +74,26 @@
                 <div>
                     <x-input-label for="contact" :value="__('Contact Number')" />
                     <x-text-input id="contact" name="contact" type="text" class="block w-full mt-1"
-                        value="{{ old('contact') }}" />
+                        value="{{ old('contact',$seniors->contact) }}" />
                     <x-input-error :messages="$errors->get('contact')" class="mt-2" />
                 </div>
 
                 <div>
                     <x-input-label for="gender" :value="__('Gender')" />
                     <select id="gender" name="gender"
-                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
+                        class="w-full mt-1 border-gray-300 rounded-md uppercase shadow-sm focus:ring-2 focus:ring-blue-400">
                         <option disabled selected>-- Select --</option>
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
+                        @foreach (['Male', 'Female'] as $g)
+                            <option value="{{ $g }}"
+                                {{ old('gender', $seniors->gender) == $g ? 'selected' : '' }}>{{ $g }}
+                            </option>
+                        @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                 </div>
                 <div>
                     <x-input-label for="birthdate" :value="__('Birthdate')" />
-                    <input type="date" name="birthdate"
+                    <input type="date" name="birthdate" value="{{ old('birthdate',$seniors->birthdate) }}"
                         class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
                     <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
 
@@ -105,10 +109,14 @@
             <div>
                 <x-input-label for="status" :value="__('Status')" />
                 <select id="status" name="status"
-                    class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
+                    class="w-full mt-1 border-gray-300 uppercase rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
                     <option value="">-- Select --</option>
-                    <option value="Active">Active</option>
-                    <option value="Deceased">Deceased</option>
+                    @foreach (['Active','Deceased'] as $s)
+                        <option value="{{ $s }}"
+                            {{ old('status', $seniors->status) == $s ? 'selected' : '' }}>{{ $s }}
+                        </option>
+                        
+                    @endforeach
 
                 </select>
                 <x-input-error :messages="$errors->get('status')" class="mt-2" />

@@ -23,4 +23,8 @@ class Seniors extends Model
     {
         return trim("{$this->fname} {$this->mname} {$this->lname}");
     }
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class, 'brgy_id');
+    }
 }
