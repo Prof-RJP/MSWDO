@@ -19,7 +19,7 @@ class SeniorCetizenController extends Controller
 {
     $search = $request->input('search');
     $sortField = $request->input('sort', 'id');
-    $sortDirection = $request->input('direction', 'asc');
+    $sortDirection = $request->input('direction', 'desc');
 
     // Validate direction to avoid invalid inputs
     if (!in_array($sortDirection, ['asc', 'desc'])) {
@@ -32,15 +32,16 @@ class SeniorCetizenController extends Controller
     // ✅ Search logic
     if ($search) {
         $query->where(function ($q) use ($search) {
-            $q->where('fname', 'like', "%{$search}%")
-              ->orWhere('mname', 'like', "%{$search}%")
-              ->orWhere('lname', 'like', "%{$search}%")
-              ->orWhere('osca_id', 'like', "%{$search}%");
+            $q->where('seniors.fname', 'like', "%{$search}%")
+              ->orWhere('seniors.mname', 'like', "%{$search}%")
+              ->orWhere('seniors.lname', 'like', "%{$search}%")
+              ->orWhere('seniors.age', 'like', "%{$search}%")
+              ->orWhere('seniors.osca_id', 'like', "%{$search}%");
         });
     }
 
     // ✅ Sorting logic
-    if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'osca_id', 'status'])) {
+    if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'age', 'osca_id', 'status'])) {
         $query->orderBy($sortField, $sortDirection);
     }
 
@@ -63,7 +64,7 @@ class SeniorCetizenController extends Controller
         $request->validate([
             'fname' => 'required|string|max:50',
             'mname' => 'nullable|string|max:50',
-            'osca_id' => 'required|integer',
+            'osca_id' => 'nullable|string|max:10',
             'lname' => 'required|string|max:50',
             'brgy_id' => 'required|integer|max:50',
             'contact' => 'required|string|max:50',
@@ -100,7 +101,7 @@ class SeniorCetizenController extends Controller
         $request->validate([
             'fname' => 'required|string|max:50',
             'mname' => 'nullable|string|max:50',
-            'osca_id' => 'required|integer',
+            'osca_id' => 'nullable|string|max:10',
             'lname' => 'required|string|max:50',
             'brgy_id' => 'required|integer|max:50',
             'contact' => 'required|string|max:50',
@@ -127,4 +128,14 @@ class SeniorCetizenController extends Controller
         return redirect()->route('admin.view-senior', compact('age','brgy_id'))->with('success', 'Senior Cetizen added successfully!');
 
     }
+    public function destroy($brgy_id, $id)
+{
+    $senior = Seniors::findOrFail($id);
+    $senior->delete();
+
+    return redirect()
+        ->route('admin.view-senior', $brgy_id)
+        ->with('success', 'Data deleted successfully!');
+}
+
 }

@@ -21,7 +21,7 @@ class Seniors extends Model
 
     public function getFullNameAttribute()
     {
-        return trim("{$this->fname} {$this->mname} {$this->lname}");
+        return trim("{$this->lname}, {$this->fname} {$this->mname} ");
     }
     public function barangay()
     {

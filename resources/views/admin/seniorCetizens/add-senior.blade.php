@@ -106,7 +106,6 @@
                 <x-input-label for="status" :value="__('Status')" />
                 <select id="status" name="status"
                     class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
-                    <option value="">-- Select --</option>
                     <option value="Active">Active</option>
                     <option value="Deceased">Deceased</option>
 

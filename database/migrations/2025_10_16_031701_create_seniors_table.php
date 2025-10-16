@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('seniors', function (Blueprint $table) {
             $table->id();
             $table->foreignId('brgy_id')->constrained('barangays')->onDelete('cascade');
-            $table->integer('osca_id');
+            $table->string('osca_id')->nullable();
             $table->string('fname');
             $table->string('mname')->nullable();
             $table->string('lname');
             $table->string('contact')->nullable();
-            $table->date('birthdate');
+            $table->date('birthdate')->nullable();
             $table->integer('age')->nullable();
             $table->enum('gender', ['Male', 'Female']);
             $table->enum('status',['Active','Deceased']);

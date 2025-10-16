@@ -44,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/seniorCetizens/store',[SeniorCetizenController::class, 'store'])->name('senior.store');
     Route::get('/seniorCetizens/{brgy_id}/edit/{id}',[SeniorCetizenController::class,'edit'])->name('senior.edit');
     Route::put('/seniorCetizens/{brgy_id}/update/{id}',[SeniorCetizenController::class,'update'])->name('senior.update');
+    Route::delete('/seniorCetizens/{brgy_id}/destroy/{id}',[SeniorCetizenController::class, 'destroy'])->name('senior.destroy');
+
 });
 
 require __DIR__ . '/auth.php';
