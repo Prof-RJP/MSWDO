@@ -75,7 +75,23 @@
 
                 <span>Senior Citizens</span>
             </a>
+            <a href="{{ route('admin.events') }}"
+                class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
+                    hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
+                    dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white
+                    {{ request()->routeIs('admin.events')
+                        ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
+                        : 'text-neutral-600 dark:text-neutral-300' }}">
 
+                <!-- events Icon (Solid Style) -->
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="shrink-0 size-5" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v14a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h16v12H4V8zm6.293 6.293a1 1 0 011.414 0L13 15.586l3.293-3.293a1 1 0 011.414 1.414L13 18.414l-2.707-2.707a1 1 0 010-1.414z" />
+                </svg>
+
+                <span>Events</span>
+            </a>
 
             <a href="{{ route('admin.barangay') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
@@ -96,7 +112,7 @@
             </a>
 
 
-            <a href=""
+            {{-- <a href=""
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('profile.edit')
                     ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
                     : 'text-neutral-600 dark:text-neutral-300' }}">
@@ -108,7 +124,7 @@
                 </svg>
                 <span>Attendance</span>
 
-            </a>
+            </a> --}}
 
             <a href="{{ route('profile.edit') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('profile.edit')

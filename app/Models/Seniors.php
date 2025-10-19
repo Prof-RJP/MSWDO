@@ -27,4 +27,9 @@ class Seniors extends Model
     {
         return $this->belongsTo(Barangay::class, 'brgy_id');
     }
+
+    public function claims() {
+        return $this->hasMany(Claims::class);
+    }
+
 }
