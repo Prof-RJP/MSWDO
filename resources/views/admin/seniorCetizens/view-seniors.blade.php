@@ -75,8 +75,8 @@
                             }
                         @endphp
 
-                        <th class="px-4 py-3">{!! sort_link('lname', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('osca_id', 'OSCA ID', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3">{!! sort_link('lname', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('age', 'Age', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('status', 'Status', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('action', 'Action', $sortField ?? '', $sortDirection ?? '') !!}</th>
@@ -86,10 +86,21 @@
                     @forelse ($seniors as $sr)
                         <tr class="hover:bg-gray-200 cursor-pointer"
                             onclick="window.location='{{ route('senior.edit', ['id' => $sr->id, 'brgy_id' => $sr->brgy_id]) }}'">
-                            <td class="px-4 py-3 uppercase">{{ $sr->full_name }}</td>
                             <td class="px-4 py-3 uppercase">{{ $sr->osca_id }}</td>
+                            <td class="px-4 py-3 uppercase">{{ $sr->full_name }}</td>
                             <td class="px-4 py-3 uppercase">{{ $sr->age }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $sr->status }}</td>
+                            <td class="px-4 py-3 uppercase">
+                                @if ($sr->status == 'Active')
+                                    <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-semibold">
+                                        {{ $sr->status }}
+                                    </span>
+                                @else
+                                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-sm font-semibold">
+                                        {{ $sr->status }}
+                                    </span>
+                                    
+                                @endif
+                            </td>
                             <td class="px-4 py-3 uppercase">
                                 <form action="{{ route('senior.destroy', ['brgy_id' => $brgy_id, 'id' => $sr->id]) }}"
                                     method="POST">
