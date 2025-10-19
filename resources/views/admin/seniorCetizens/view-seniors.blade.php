@@ -6,7 +6,7 @@
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 500,
                     timerProgressBar: true,
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
@@ -26,11 +26,16 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Senior Cetizens') }}
             </h2>
-            <a href="{{ route('admin.senior') }}"
+            <div class="flex flex-row gap-3">
+                <a href="{{ route('admin.add-senior',$brgy_id) }}" class="bg-green-700 text-white px-3 py-2 rounded-lg">
+                <i class="fas fa-plus"></i> Add Seniors
+            </a>
+                <a href="{{ route('admin.senior') }}"
                 class="flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg shadow-md transition-all">
                 <i class="fas fa-angle-left"></i>
-                <span>Back</span>
             </a>
+            </div>
+
         </div>
     </x-slot>
 

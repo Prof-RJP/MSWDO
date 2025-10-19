@@ -6,7 +6,7 @@
                         toast: true,
                         position: "top-end",
                         showConfirmButton: false,
-                        timer: 3000,
+                        timer: 500,
                         timerProgressBar: true,
                         didOpen: (toast) => {
                             toast.onmouseenter = Swal.stopTimer;
@@ -26,9 +26,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Senior Cetizens') }}
             </h2>
-            <a href="{{ route('admin.add-senior') }}" class="bg-green-700 text-white px-3 py-2 rounded-lg">
-                <i class="fas fa-plus"></i> Add Seniors
-            </a>
+
         </div>
     </x-slot>
 

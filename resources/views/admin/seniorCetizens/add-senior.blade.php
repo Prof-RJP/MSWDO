@@ -16,7 +16,7 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-2">Add Senior Cetizen</h1>
         <p class="text-gray-500 mb-6">Fill in the information below to register a Senior Cetizen.</p>
 
-        <form action="{{ route('senior.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('senior.store', $brgy_id) }}" method="POST" class="space-y-6">
             @csrf
 
             <!-- Address -->
@@ -30,13 +30,12 @@
                 </div>
                 <div>
                     <x-input-label for="brgy_id" :value="__('Barangay')" />
-                    <select name="brgy_id" id=" "
-                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-400">
-                        <option value="" disabled selected>--Select Barangay--</option>
-                        @foreach ($barangay as $brgy)
-                            <option value="{{ $brgy->id }}">{{ $brgy->barangay }}</option>
-                        @endforeach
-                    </select>
+                    <x-text-input id="brgy_id" class="w-full " name="brgy_id" value="{{ $brgy_id }}" hidden />
+                    @foreach ($barangay as $brgy)
+                        @if ($brgy_id == $brgy->id)
+                            <x-text-input id="brgy_id" class="w-full " value="{{ $brgy->barangay }}" disabled/>
+                        @endif
+                    @endforeach
                     <x-input-error :messages="$errors->get('brgy_id')" class="mt-2" />
                 </div>
             </div>

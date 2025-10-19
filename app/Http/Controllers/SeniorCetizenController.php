@@ -16,51 +16,58 @@ class SeniorCetizenController extends Controller
     }
 
     public function viewSenior(Request $request, $brgy_id)
-{
-    $search = $request->input('search');
-    $sortField = $request->input('sort', 'id');
-    $sortDirection = $request->input('direction', 'desc');
+    {
+        $search = $request->input('search');
+        $sortField = $request->input('sort', 'id');
+        $sortDirection = $request->input('direction', 'desc');
 
-    // Validate direction to avoid invalid inputs
-    if (!in_array($sortDirection, ['asc', 'desc'])) {
-        $sortDirection = 'asc';
+        // Validate direction to avoid invalid inputs
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'asc';
+        }
+
+        $query = Seniors::with('barangay') // ✅ eager load
+            ->where('brgy_id', $brgy_id);  // ✅ filter by barangay
+
+        // ✅ Search logic
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('seniors.fname', 'like', "%{$search}%")
+                    ->orWhere('seniors.mname', 'like', "%{$search}%")
+                    ->orWhere('seniors.lname', 'like', "%{$search}%")
+                    ->orWhere('seniors.age', 'like', "%{$search}%")
+                    ->orWhere('seniors.osca_id', 'like', "%{$search}%");
+            });
+        }
+
+        // ✅ Sorting logic
+        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'age', 'osca_id', 'status'])) {
+            $query->orderBy($sortField, $sortDirection);
+        }
+
+        $seniors = $query->paginate(20)->appends($request->query());
+        $barangay = Barangay::all();
+
+        return view('admin.seniorCetizens.view-seniors', compact(
+            'sortField',
+            'sortDirection',
+            'search',
+            'seniors',
+            'brgy_id',
+            'barangay'
+        ));
     }
 
-    $query = Seniors::with('barangay') // ✅ eager load
-        ->where('brgy_id', $brgy_id);  // ✅ filter by barangay
 
-    // ✅ Search logic
-    if ($search) {
-        $query->where(function ($q) use ($search) {
-            $q->where('seniors.fname', 'like', "%{$search}%")
-              ->orWhere('seniors.mname', 'like', "%{$search}%")
-              ->orWhere('seniors.lname', 'like', "%{$search}%")
-              ->orWhere('seniors.age', 'like', "%{$search}%")
-              ->orWhere('seniors.osca_id', 'like', "%{$search}%");
-        });
-    }
-
-    // ✅ Sorting logic
-    if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'age', 'osca_id', 'status'])) {
-        $query->orderBy($sortField, $sortDirection);
-    }
-
-    $seniors = $query->paginate(20)->appends($request->query());
-    $barangay = Barangay::all();
-
-    return view('admin.seniorCetizens.view-seniors', compact(
-        'sortField', 'sortDirection', 'search', 'seniors', 'brgy_id', 'barangay'
-    ));
-}
-
-
-    public function create(Request $request){
+    public function create(Request $request, $brgy_id)
+    {
         $barangay = Barangay::all();
         $age = Carbon::parse($request->birthdate);
-        return view('admin.seniorCetizens.add-senior',compact('barangay','age'));
+        return view('admin.seniorCetizens.add-senior', compact('barangay', 'age', 'brgy_id'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request, $brgy_id)
+    {
         $request->validate([
             'fname' => 'required|string|max:50',
             'mname' => 'nullable|string|max:50',
@@ -87,17 +94,18 @@ class SeniorCetizenController extends Controller
             'status' => $request->status,
             'age' => $age,
         ]);
-        return redirect()->route('admin.senior', compact('age'))->with('success', 'Senior Cetizen added successfully!');
-
+        return redirect()->route('admin.view-senior', compact('age','brgy_id'))->with('success', 'Senior Cetizen added successfully!');
     }
-    public function edit(Request $request,$id,$brgy_id){
+    public function edit(Request $request, $id, $brgy_id)
+    {
         $barangay = Barangay::all();
         $age = Carbon::parse($request->birthdate)->age;
         $seniors = Seniors::findOrFail($brgy_id);
-        return view('admin.seniorCetizens.update-senior',compact('seniors','barangay','age', 'id','brgy_id'));
+        return view('admin.seniorCetizens.update-senior', compact('seniors', 'barangay', 'age', 'id', 'brgy_id'));
     }
 
-    public function update(Request $request,$id,$brgy_id){
+    public function update(Request $request, $id, $brgy_id)
+    {
         $request->validate([
             'fname' => 'required|string|max:50',
             'mname' => 'nullable|string|max:50',
@@ -125,17 +133,15 @@ class SeniorCetizenController extends Controller
             'status' => $request->status,
             'age' => $age,
         ]);
-        return redirect()->route('admin.view-senior', compact('age','brgy_id'))->with('success', 'Senior Cetizen added successfully!');
-
+        return redirect()->route('admin.view-senior', compact('age', 'brgy_id'))->with('success', 'Senior Cetizen added successfully!');
     }
     public function destroy($brgy_id, $id)
-{
-    $senior = Seniors::findOrFail($id);
-    $senior->delete();
+    {
+        $senior = Seniors::findOrFail($id);
+        $senior->delete();
 
-    return redirect()
-        ->route('admin.view-senior', $brgy_id)
-        ->with('success', 'Data deleted successfully!');
-}
-
+        return redirect()
+            ->route('admin.view-senior', $brgy_id)
+            ->with('success', 'Data deleted successfully!');
+    }
 }
