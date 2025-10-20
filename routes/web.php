@@ -40,7 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/barangay/add-barangay', [BarangayController::class, 'create'])->name('admin.add-barangay');
     Route::post('/barangay/store', [BarangayController::class, 'store'])->name('barangay.store');
 
-<<<<<<< HEAD
     Route::get('/seniorCetizens',[SeniorCetizenController::class, 'show'])->name('admin.senior');
     Route::get('/seniorCetizens/{brgy_id}/barangay',[SeniorCetizenController::class, 'viewSenior'])->name('admin.view-senior');
     Route::get('/seniorCetizens/{brgy_id}/add-senior',[SeniorCetizenController::class, 'create'])->name('admin.add-senior');
@@ -48,15 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/seniorCetizens/{brgy_id}/edit/{id}',[SeniorCetizenController::class,'edit'])->name('senior.edit');
     Route::put('/seniorCetizens/{brgy_id}/update/{id}',[SeniorCetizenController::class,'update'])->name('senior.update');
     Route::delete('/seniorCetizens/{brgy_id}/destroy/{id}',[SeniorCetizenController::class, 'destroy'])->name('senior.destroy');
-=======
-    Route::get('/seniorCetizens', [SeniorCetizenController::class, 'show'])->name('admin.senior');
-    Route::get('/seniorCetizens/{brgy_id}/barangay', [SeniorCetizenController::class, 'viewSenior'])->name('admin.view-senior');
-    Route::get('/seniorCetizens/add-senior', [SeniorCetizenController::class, 'create'])->name('admin.add-senior');
-    Route::post('/seniorCetizens/store', [SeniorCetizenController::class, 'store'])->name('senior.store');
-    Route::get('/seniorCetizens/{brgy_id}/edit/{id}', [SeniorCetizenController::class, 'edit'])->name('senior.edit');
-    Route::put('/seniorCetizens/{brgy_id}/update/{id}', [SeniorCetizenController::class, 'update'])->name('senior.update');
-    Route::delete('/seniorCetizens/{brgy_id}/destroy/{id}', [SeniorCetizenController::class, 'destroy'])->name('senior.destroy');
->>>>>>> eea5dba13c8d4d99ae5aac22247b641febbbe92f
 
     Route::get('/events', [EventsController::class, 'index'])->name('admin.events');
     Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
