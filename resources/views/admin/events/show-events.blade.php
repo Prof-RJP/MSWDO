@@ -90,7 +90,7 @@
                 <table class="min-w-full table-auto border">
                     <thead class="bg-gray-100 text-gray-700">
                         <tr>
-                            <th class="px-4 py-3 text-left">{!! sort_link('lname', 'Name', $sortField, $sortDirection) !!}</th>
+                            <th class="px-4 py-3 text-left">{!! sort_link('id', 'Name', $sortField, $sortDirection) !!}</th>
                             <th class="px-4 py-3 text-left">{!! sort_link('birthdate', 'Birthday', $sortField, $sortDirection) !!}</th>
                             <th class="px-4 py-3 text-left">Age</th>
                             <th class="px-4 py-3 text-center">{!! sort_link('barangay_id', 'Barangay', $sortField, $sortDirection) !!}</th>
@@ -104,7 +104,10 @@
                                 $claim = $claims->firstWhere('senior_id', $senior->id);
                             @endphp
                             <tr class="hover:bg-gray-50">
-                                <td class="px-4 py-3 uppercase">{{ $senior->lname }}, {{ $senior->fname }}</td>
+                                @if ($senior->status == "Active")
+
+
+                                <td class="px-4 py-3 uppercase">{{ $senior->lname }}, {{ $senior->fname }} {{ $senior->mname ?? "" }}</td>
                                 <td class="px-4 py-3">{{ \Carbon\Carbon::parse($senior->birthdate)->format('F d') }}</td>
                                 <td class="px-4 py-3">{{ \Carbon\Carbon::parse($senior->birthdate)->age }}</td>
                                 <td class="px-4 py-3 text-center">
@@ -131,6 +134,7 @@
                                         <button disabled class="bg-gray-300 text-gray-700 px-3 py-1 rounded-md">Claimed</button>
                                     @endif
                                 </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>
