@@ -75,7 +75,7 @@
             // Count claimed among the filtered ones
             $claimedCount = $activeCelebrants
                 ->filter(function ($senior) use ($claims) {
-                    $claim = $claims->firstWhere('sr_id', $senior->id);
+                    $claim = $claims->firstWhere('senior_id', $senior->id);
                     return $claim && $claim->status === 'claimed';
                 })
                 ->count();
