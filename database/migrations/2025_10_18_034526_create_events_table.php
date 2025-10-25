@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('title');
             $table->date('starts_at')->nullable();
             $table->date('ends_at')->nullable();
-            
+            $table->text('description')->nullable();
             $table->enum('status', ['upcoming','ongoing','done'])->default('upcoming');
             $table->timestamps();
         });

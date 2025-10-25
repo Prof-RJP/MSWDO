@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/events/store', [EventsController::class, 'store'])->name('events.store');
     Route::get('/events/{event}/claims', [ClaimController::class, 'index'])->name('claims.index');
     Route::post('/claims', [ClaimController::class, 'store'])->name('claims.store');
+    Route::get('/claims/print/{event}', [ClaimController::class, 'print'])->name('claims.print');
 });
 
 require __DIR__ . '/auth.php';

@@ -55,13 +55,21 @@
                 <input type="text" name="search" value="{{ $search }}" placeholder="Search seniors..."
                     class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
                 <button type="submit" class="bg-green-700 text-white px-3 py-1 rounded-lg">Search</button>
+
+                <!-- ✅ Print Button -->
+                <a href="{{ route('claims.print', ['event' => $event->id, 'barangay' => request('barangay'), 'search' => request('search')]) }}"
+                    target="_blank"
+                    class="bg-blue-700 text-white px-3 py-1 rounded-lg hover:bg-blue-800 flex items-center space-x-1">
+                    <i class="fas fa-print"></i>
+                    <span>Print</span>
+                </a>
             </form>
         </div>
 
         @php
             // Filter celebrants based on Active status
             $activeCelebrants = $celebrants->filter(function ($senior) {
-                return $senior->status === 'Active';
+                return $senior->status == 'Active';
             });
 
             // If a barangay filter is applied, filter further
@@ -83,27 +91,28 @@
             // Unclaimed = remaining
             $unclaimedCount = $totalCelebrants - $claimedCount;
 
-            function sort_link($column, $label, $sortField, $sortDirection) {
-                $newDir = ($sortField === $column && $sortDirection === 'asc') ? 'desc' : 'asc';
+            function sort_link($column, $label, $sortField, $sortDirection)
+            {
+                $newDir = $sortField === $column && $sortDirection === 'asc' ? 'desc' : 'asc';
                 $arrow = $sortField === $column ? ($sortDirection === 'asc' ? '↑' : '↓') : '';
                 $query = http_build_query(array_merge(request()->all(), ['sort' => $column, 'direction' => $newDir]));
-                return "<a href='?".e($query)."' class='flex items-center'>{$label} {$arrow}</a>";
+                return "<a href='?" . e($query) . "' class='flex items-center'>{$label} {$arrow}</a>";
             }
         @endphp
 
-
         <!-- ✅ Summary Counters -->
         <div class="flex flex-wrap items-center gap-4 mb-6">
-    <div class="bg-green-100 text-green-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
-        Claimed: {{ $claimedCount }}
-    </div>
-    <div class="bg-red-100 text-red-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
-        Unclaimed: {{ $unclaimedCount }}
-    </div>
-    <div class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
-        Total Celebrants: {{ $totalCelebrants }}
-    </div>
-</div>
+            <div class="bg-green-100 text-green-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
+                Claimed: {{ $claimedCount }}
+            </div>
+            <div class="bg-red-100 text-red-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
+                Unclaimed: {{ $unclaimedCount }}
+            </div>
+            <div class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-semibold shadow-sm">
+                Total Celebrants: {{ $totalCelebrants }}
+            </div>
+        </div>
+
         <!-- ✅ Table -->
         <div class="overflow-x-auto">
             @if ($celebrants->isEmpty())
@@ -112,36 +121,41 @@
                 <table class="min-w-full table-auto border">
                     <thead class="bg-gray-100 text-gray-700">
                         <tr>
+                            <th class="px-4 py-3 text-center">No.</th>
                             <th class="px-4 py-3 text-left">{!! sort_link('id', 'Name', $sortField, $sortDirection) !!}</th>
                             <th class="px-4 py-3 text-left">{!! sort_link('birthdate', 'Birthday', $sortField, $sortDirection) !!}</th>
                             <th class="px-4 py-3 text-left">Age</th>
-                            <th class="px-4 py-3 text-center">{!! sort_link('barangay_id', 'Barangay', $sortField, $sortDirection) !!}</th>
+                            <th class="px-4 py-3 text-center">{!! sort_link('brgy_id', 'Barangay', $sortField, $sortDirection) !!}</th>
                             <th class="px-4 py-3 text-center">Status</th>
                             <th class="px-4 py-3 text-center">Action</th>
                         </tr>
                     </thead>
+
                     <tbody class="divide-y">
+                        @php $no = 1; @endphp {{-- ✅ Continuous counter --}}
                         @foreach ($celebrants as $senior)
                             @php
                                 $claim = $claims->firstWhere('senior_id', $senior->id);
                             @endphp
-                            <tr class="hover:bg-gray-50">
-                                @if ($senior->status == 'Active')
-                                    <td class="px-4 py-3 uppercase">{{ $senior->lname }}, {{ $senior->fname }}
-                                        {{ $senior->mname ?? '' }}</td>
+
+                            @if ($senior->status == 'Active')
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 text-center">{{ $no++ }}</td>
+                                    <td class="px-4 py-3 uppercase">
+                                        {{ $senior->lname }}, {{ $senior->fname }} {{ $senior->mname ?? '' }}
+                                    </td>
                                     <td class="px-4 py-3">
-                                        {{ \Carbon\Carbon::parse($senior->birthdate)->format('F d') }}</td>
-                                    <td class="px-4 py-3">{{ \Carbon\Carbon::parse($senior->birthdate)->age }}</td>
+                                        {{ \Carbon\Carbon::parse($senior->birthdate)->format('F d') }}
+                                    </td>
+                                    <td class="px-4 py-3">{{ $senior->age }}</td>
                                     <td class="px-4 py-3 text-center">
                                         {{ $senior->barangay->barangay ?? 'N/A' }}
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         @if ($claim && $claim->status === 'claimed')
-                                            <span
-                                                class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Claimed</span>
+                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm">Claimed</span>
                                         @else
-                                            <span
-                                                class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm">Unclaimed</span>
+                                            <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-sm">Unclaimed</span>
                                         @endif
                                     </td>
                                     <td class="px-4 py-3 text-center">
@@ -160,8 +174,8 @@
                                                 class="bg-gray-300 text-gray-700 px-3 py-1 rounded-md">Claimed</button>
                                         @endif
                                     </td>
-                                @endif
-                            </tr>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

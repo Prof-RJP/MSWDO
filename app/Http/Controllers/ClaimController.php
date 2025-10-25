@@ -76,4 +76,24 @@ public function index(Request $request, $event_id)
 
         return back()->with('success', 'Marked as Claimed successfully!');
     }
+    public function print(Request $request, $event)
+{
+    $event = Events::findOrFail($event);
+
+    // Get query params
+    $barangayId = $request->input('barangay');
+
+    // Get all celebrants for this event (or however you link them)
+    $celebrants = Seniors::query()
+        ->when($barangayId, function ($query, $barangayId) {
+            $query->where('brgy_id', $barangayId);
+        })
+        
+        ->whereMonth('birthdate', \Carbon\Carbon::parse($event->starts_at)->month)
+        ->orderBy('lname')
+        ->get();
+
+    return view('admin.seniorCetizens.print-preview', compact('event', 'celebrants', 'barangayId'));
+}
+
 }
