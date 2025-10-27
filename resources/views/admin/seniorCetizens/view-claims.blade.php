@@ -87,11 +87,7 @@
                         <tr class="hover:bg-gray-200 cursor-pointer"
                             onclick="window.location='{{ route('senior.edit', ['id' => $sr->id, 'brgy_id' => $sr->brgy_id]) }}'">
                             <td class="px-4 py-3 uppercase">{{ $sr->osca_id }}</td>
-                            <td class="px-4 py-3 uppercase">
-                                <a href="{{ route('senior.viewClaims',['brgy_id'=>$brgy_id, 'senior_id' => $sr->id]) }}">
-                                    {{ $sr->full_name }}</td>
-                                </a>
-
+                            <td class="px-4 py-3 uppercase">{{ $sr->full_name }}</td>
                             <td class="px-4 py-3 uppercase">{{ $sr->age }}</td>
                             <td class="px-4 py-3 uppercase">
                                 @if ($sr->status == 'Active')
@@ -125,7 +121,7 @@
 
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-6 text-gray-500">No clients found</td>
+                            <td colspan="5" class="text-center py-6 text-gray-500">No claims found</td>
                         </tr>
                     @endforelse
 

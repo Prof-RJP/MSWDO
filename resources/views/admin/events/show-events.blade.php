@@ -77,8 +77,15 @@
                 $activeCelebrants = $activeCelebrants->where('brgy_id', $barangayFilter);
             }
 
+            // Count of Deceased
+            $deceased = $celebrants->filter(function ($senior) {
+                return $senior->status == 'Deceased';
+            })->count();
+
+            $celCount = $activeCelebrants->count();
+
             // Count total active celebrants
-            $totalCelebrants = $activeCelebrants->count();
+            $totalCelebrants = $celCount - $deceased;
 
             // Count claimed among the filtered ones
             $claimedCount = $activeCelebrants

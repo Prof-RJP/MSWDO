@@ -99,19 +99,26 @@
     @endphp
 
     @foreach ($chunks as $chunkIndex => $chunk)
-        <div class="flex items-center justify-between mx-8 mt-4">
-            <img src="{{ asset('images/logo.jpg') }}" alt="Left Logo" class="w-20 h-20 object-contain">
-            <div class="flex flex-col items-center flex-1 text-center">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Center Logo" class="w-16 h-16 mb-2">
-                <h4 class="text-base font-medium leading-tight">Republic of the Philippines</h4>
-                <h4 class="text-base font-medium leading-tight">Province of Pangasinan</h4>
-                <h4 class="text-base font-medium leading-tight">Municipality of San Quintin</h4>
+        <div class="flex items-center justify-evenly">
+            <div class="flex justify-start flex-1 items-center">
+                <img src="{{ asset('images/BAGONG PILIPINAS.png') }}" alt="Left Logo" class="h-24">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Left Logo" class="h-24">
             </div>
-            <img src="{{ asset('images/logo.jpg') }}" alt="Right Logo" class="w-20 h-20 object-contain">
+
+            <div class="flex flex-col items-center flex-1 text-center">
+                <img src="{{ asset('images/BAYAN NG SAN QUINTIN.png') }}" alt="Center Logo" class="w-16 h-16">
+                <h4 class="text-base font-black uppercase leading-tight">Republic of the Philippines</h4>
+                <h4 class="text-base font-medium uppercase leading-tight">Province of Pangasinan</h4>
+                <h4 class="text-base font-medium uppercase leading-tight">Municipality of San Quintin</h4>
+            </div>
+            <div class="flex-1 flex justify-end items-center">
+                <img src="{{ asset('images/FSB LOGO.png') }}" alt="Right Logo" class="w-20 h-20 object-contain">
+            </div>
+
         </div>
 
         <div class="flex text-center w-full mt-4 mb-2 font-semibold text-lg">
-            <span class="bg-green-500 flex justify-center items-center uppercase px-4 text-white w-screen">
+            <span class="bg-[#00CC00] border border-t-[#008000] border-b-[#008000] font-black flex justify-center items-center uppercase px-4 text-white w-screen">
                 Municipal Social Welfare and Development Office
             </span>
         </div>

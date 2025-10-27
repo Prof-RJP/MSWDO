@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barangay;
+use App\Models\Claims;
 use App\Models\Seniors;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -143,5 +144,10 @@ class SeniorCetizenController extends Controller
         return redirect()
             ->route('admin.view-senior', $brgy_id)
             ->with('success', 'Data deleted successfully!');
+    }
+
+    public function viewClaims($brgy_id,$senior_id){
+        $claims = Claims::all();
+        return view('admin.seniorCetizens.view-claims',compact('claims','brgy_id'));
     }
 }

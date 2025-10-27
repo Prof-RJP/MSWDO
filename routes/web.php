@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Client Route
     Route::get('/clients', [ClientsController::class, 'index'])->name('admin.client');
     Route::get('/clients/add-client', [ClientsController::class, 'create'])->name('admin.add-client');
     Route::post('/clients/store', [ClientsController::class, 'store'])->name('client.store');
@@ -29,17 +30,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/client/{id}/edit', [ClientsController::class, 'edit'])->name('client.edit');
     Route::put('/client/{id}/update', [ClientsController::class, 'update'])->name('client.update');
 
-
+    //AICS Route
     Route::get('/AICS', [AicsController::class, 'show'])->name('admin.AICS');
     Route::get('/AICS/add-AICS', [AicsController::class, 'create'])->name('admin.add-AICS');
     Route::post('/AICS/add-AICS/store', [AicsController::class, 'store'])->name('AICS.store');
     Route::get('/AICS/{id}/edit', [AicsController::class, 'edit'])->name('AICS.edit');
     Route::put('/AICS/{id}/update', [AicsController::class, 'update'])->name('AICS.update');
 
+    //Barangay Route
     Route::get('/barangays', [BarangayController::class, 'show'])->name('admin.barangay');
     Route::get('/barangay/add-barangay', [BarangayController::class, 'create'])->name('admin.add-barangay');
     Route::post('/barangay/store', [BarangayController::class, 'store'])->name('barangay.store');
 
+    //Seniors Route
     Route::get('/seniorCetizens',[SeniorCetizenController::class, 'show'])->name('admin.senior');
     Route::get('/seniorCetizens/{brgy_id}/barangay',[SeniorCetizenController::class, 'viewSenior'])->name('admin.view-senior');
     Route::get('/seniorCetizens/{brgy_id}/add-senior',[SeniorCetizenController::class, 'create'])->name('admin.add-senior');
@@ -47,7 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/seniorCetizens/{brgy_id}/edit/{id}',[SeniorCetizenController::class,'edit'])->name('senior.edit');
     Route::put('/seniorCetizens/{brgy_id}/update/{id}',[SeniorCetizenController::class,'update'])->name('senior.update');
     Route::delete('/seniorCetizens/{brgy_id}/destroy/{id}',[SeniorCetizenController::class, 'destroy'])->name('senior.destroy');
+    Route::get('/seniorCetizens/{brgy_id}/viewClaims/{senior_id}',[SeniorCetizenController::class, 'viewClaims'])->name('senior.viewClaims');
 
+    // Events Route
     Route::get('/events', [EventsController::class, 'index'])->name('admin.events');
     Route::get('/events/create', [EventsController::class, 'create'])->name('events.create');
     Route::post('/events/store', [EventsController::class, 'store'])->name('events.store');
