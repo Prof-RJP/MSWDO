@@ -46,7 +46,7 @@ class SeniorCetizenController extends Controller
             $query->orderBy($sortField, $sortDirection);
         }
 
-        $seniors = $query->paginate(20)->appends($request->query());
+        $seniors = $query->paginate(50)->appends($request->query());
         $barangay = Barangay::all();
 
         return view('admin.seniorCetizens.view-seniors', compact(

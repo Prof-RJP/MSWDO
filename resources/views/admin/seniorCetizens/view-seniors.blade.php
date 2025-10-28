@@ -92,7 +92,7 @@
                                     {{ $sr->full_name }}</td>
                                 </a>
 
-                            <td class="px-4 py-3 uppercase">{{ \Carbon\Carbon::parse($sr->birthdate)->format('F d, Y') }}</td>
+                            <td class="px-4 py-3 uppercase">{{ \Carbon\Carbon::parse($sr->birthdate)->format('M d, Y') }}</td>
                             <td class="px-4 py-3 uppercase">
                                 @if ($sr->status == 'Active')
                                     <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-semibold">
