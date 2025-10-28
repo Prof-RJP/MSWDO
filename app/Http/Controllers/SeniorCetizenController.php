@@ -147,7 +147,8 @@ class SeniorCetizenController extends Controller
     }
 
     public function viewClaims($brgy_id,$senior_id){
-        $claims = Claims::all();
-        return view('admin.seniorCetizens.view-claims',compact('claims','brgy_id'));
+        $seniors = Seniors::findOrFail($senior_id);
+        $barangay = Barangay::findOrFail($brgy_id);
+        return view('admin.seniorCetizens.view-claims',compact('seniors','barangay'));
     }
 }
