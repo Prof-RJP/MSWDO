@@ -36,13 +36,13 @@ class SeniorCetizenController extends Controller
                 $q->where('seniors.fname', 'like', "%{$search}%")
                     ->orWhere('seniors.mname', 'like', "%{$search}%")
                     ->orWhere('seniors.lname', 'like', "%{$search}%")
-                    ->orWhere('seniors.age', 'like', "%{$search}%")
+                    ->orWhere('seniors.birthdate', 'like', "%{$search}%")
                     ->orWhere('seniors.osca_id', 'like', "%{$search}%");
             });
         }
 
         // ✅ Sorting logic
-        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'age', 'osca_id', 'status'])) {
+        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'birthdate', 'osca_id', 'status'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 
@@ -95,7 +95,7 @@ class SeniorCetizenController extends Controller
             'status' => $request->status,
             'age' => $age,
         ]);
-        return redirect()->route('admin.view-senior', compact('age','brgy_id'))->with('success', 'Senior Cetizen added successfully!');
+        return redirect()->route('admin.view-senior', compact('age', 'brgy_id'))->with('success', 'Senior Cetizen added successfully!');
     }
     public function edit(Request $request, $id, $brgy_id)
     {
@@ -146,9 +146,18 @@ class SeniorCetizenController extends Controller
             ->with('success', 'Data deleted successfully!');
     }
 
-    public function viewClaims($brgy_id,$senior_id){
-        $seniors = Seniors::findOrFail($senior_id);
+    public function viewClaims($brgy_id, $senior_id)
+    {
+        // Get barangay & senior info
         $barangay = Barangay::findOrFail($brgy_id);
-        return view('admin.seniorCetizens.view-claims',compact('seniors','barangay'));
+        $senior = Seniors::findOrFail($senior_id);
+
+        // Get all claims for this senior (with event details)
+        $claims = Claims::with('event')
+            ->where('senior_id', $senior_id)
+            ->orderBy('claimed_at', 'desc')
+            ->paginate(10); // for pagination
+
+        return view('admin.seniorCetizens.view-claims', compact('barangay', 'senior', 'claims'));
     }
 }
