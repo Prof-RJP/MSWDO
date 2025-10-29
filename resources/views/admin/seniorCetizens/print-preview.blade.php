@@ -64,7 +64,7 @@
             }
 
             .footer-line {
-                border-top: 7px solid #16a34a;
+                border-top: 12px solid #00CC00;
                 position: relative;
                 margin: 0 auto;
                 width: 100%;
@@ -77,15 +77,13 @@
                 transform: translateX(-50%);
                 background: white;
                 padding: 0 10px;
-                font-weight: 600;
-                font-size: 15px;
-                text-transform: uppercase;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 
-<body onload="window.print()" class="text-[14px] text-black h-screen">
+<body onload="window.print()" class="text-[14px] text-black h-screen w-screen">
 
     @php
         // ✅ Filter active seniors only first
@@ -100,25 +98,25 @@
 
     @foreach ($chunks as $chunkIndex => $chunk)
         <div class="flex items-center justify-evenly">
-            <div class="flex justify-start flex-1 items-center">
+            <div class="flex">
                 <img src="{{ asset('images/BAGONG PILIPINAS.png') }}" alt="Left Logo" class="h-24">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Left Logo" class="h-24">
             </div>
 
-            <div class="flex flex-col items-center flex-1 text-center">
+            <div class="flex flex-col items-center flex-2 text-center">
                 <img src="{{ asset('images/BAYAN NG SAN QUINTIN.png') }}" alt="Center Logo" class="w-16 h-16">
-                <h4 class="text-base font-black uppercase leading-tight">Republic of the Philippines</h4>
+                <h4 class="text-base font-cinzel uppercase leading-tight block">Republic of the Philippines</h4>
                 <h4 class="text-base font-medium uppercase leading-tight">Province of Pangasinan</h4>
                 <h4 class="text-base font-medium uppercase leading-tight">Municipality of San Quintin</h4>
             </div>
             <div class="flex-1 flex justify-end items-center">
-                <img src="{{ asset('images/FSB LOGO.png') }}" alt="Right Logo" class="w-20 h-20 object-contain">
+                <img src="{{ asset('images/FSB LOGO.png') }}" alt="Right Logo" class="w-24 h-24 object-contain">
             </div>
 
         </div>
 
         <div class="flex text-center w-full mt-4 mb-2 font-semibold text-lg">
-            <span class="bg-[#00CC00] border border-t-[#008000] border-b-[#008000] font-black flex justify-center items-center uppercase px-4 text-white w-screen">
+            <span class="bg-[#00CC00] border border-t-[#008000] border-b-[#008000] font-black flex justify-center items-center uppercase px-4 text-white w-screen font-sans">
                 Municipal Social Welfare and Development Office
             </span>
         </div>
@@ -155,10 +153,32 @@
         </table>
 
         <footer>
-            <div class="footer-line">
-                <span class="footer-label">Birthday Celebrants List</span>
+    <div class="footer-line">
+        <div class="footer-label">
+            <div class="flex flex-col items-center justify-center">
+                <p>"Serbisyong Farah Sa Bayan"</p>
+                <div>
+                    <p class="relative flex items-center gap-2">
+                    <span class="absolute left-0">
+                        <img src="{{ asset('images/envelop.png') }}" class="w-4 h-4" alt="">
+                    </span>
+                    <span class="ml-6">mswdosanquintin@gmail.com</span>
+                </p>
+                </div>
+
+                <div>
+                    <p class="relative flex items-center gap-2">
+                    <span class="absolute left-0">
+                        <img src="{{ asset('images/contact.png') }}" class="w-4 h-4" alt="">
+                    </span>
+                    <span class="ml-6">0917-546-7220</span>
+                </p>
+                </div>
+
             </div>
-        </footer>
+        </div>
+    </div>
+</footer>
 
         @if (!$loop->last)
             <div class="page-break"></div>
