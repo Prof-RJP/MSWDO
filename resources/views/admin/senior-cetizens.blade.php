@@ -32,13 +32,13 @@
 
     <div class="m-5 p-5 bg-white shadow-md rounded-md">
         <div class="flex items-center justify-between mb-4">
-            <div>
+            <div class="motion-preset-slide-down-right-md">
                 <h1 class="font-bold text-2xl">Senior Cetizens Page</h1>
                 <p class="italic text-gray-500">Manage and update Senior Cetizens information.</p>
             </div>
         </div>
         <!-- Barangay Grid Section -->
-<div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 p-4">
+<div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 p-4 motion-preset-slide-right-sm">
     @foreach ($barangay as $brgy)
         <!-- Each barangay card -->
         <a href="{{ route('admin.view-senior',$brgy->id) }}">

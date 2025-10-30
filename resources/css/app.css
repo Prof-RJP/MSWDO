@@ -1,5 +1,7 @@
+@import '@fontsource/cinzel';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import "@fontsource/cinzel";
+

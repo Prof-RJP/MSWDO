@@ -106,8 +106,8 @@
             <div class="flex flex-col items-center flex-2 text-center">
                 <img src="{{ asset('images/BAYAN NG SAN QUINTIN.png') }}" alt="Center Logo" class="w-16 h-16">
                 <h4 class="text-base font-cinzel uppercase leading-tight block">Republic of the Philippines</h4>
-                <h4 class="text-base font-medium uppercase leading-tight">Province of Pangasinan</h4>
-                <h4 class="text-base font-medium uppercase leading-tight">Municipality of San Quintin</h4>
+                <h4 class="text-base font-cinzel uppercase leading-tight">Province of Pangasinan</h4>
+                <h4 class="text-base font-cinzel uppercase leading-tight">Municipality of San Quintin</h4>
             </div>
             <div class="flex-1 flex justify-end items-center">
                 <img src="{{ asset('images/FSB LOGO.png') }}" alt="Right Logo" class="w-24 h-24 object-contain">

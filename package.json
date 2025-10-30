@@ -21,6 +21,7 @@
     "dependencies": {
         "@fontsource/cinzel": "^5.2.8",
         "sweetalert2": "^11.26.2",
+        "tailwindcss-motion": "^1.1.1",
         "tom-select": "^2.4.3"
     }
 }
