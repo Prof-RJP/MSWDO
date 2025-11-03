@@ -1,25 +1,25 @@
 <x-app-layout>
     <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                @if (session('success'))
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: "top-end",
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        }
-                    });
-                    Toast.fire({
-                        icon: "success",
-                        title: "{{ session('success') }}"
-                    });
-                @endif
-            });
-        </script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('success') }}"
+                });
+            @endif
+        });
+    </script>
 
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -53,8 +53,9 @@
                 <thead class="bg-gray-100 text-gray-700">
                     <tr>
                         @php
-                            function sort_link($column, $label, $sort, $direction) {
-                                $newDir = ($sort === $column && $direction === 'asc') ? 'desc' : 'asc';
+                            function sort_link($column, $label, $sort, $direction)
+                            {
+                                $newDir = $sort === $column && $direction === 'asc' ? 'desc' : 'asc';
                                 $arrow = $sort === $column ? ($direction === 'asc' ? '↑' : '↓') : '';
                                 return "<a href='?sort={$column}&direction={$newDir}' class='flex items-center'>{$label} {$arrow}</a>";
                             }
@@ -68,8 +69,8 @@
                     @forelse ($clients as $client)
                         <tr class="hover:bg-gray-50 cursor-pointer"
                             onclick="window.location='{{ route('client.edit', $client->id) }}'">
-                            <td class="px-4 py-3 uppercase">{{ $client->full_name }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $client->address }}</td>
+                            <td>{{ $sp->client->full_name }}</td>
+                            <td>{{ $sp->client->barangay->barangay ?? 'N/A' }}</td>
                         </tr>
                     @empty
                         <tr>
