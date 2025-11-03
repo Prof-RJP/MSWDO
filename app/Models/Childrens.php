@@ -12,4 +12,8 @@ class Childrens extends Model
         'birthdate',
         'status'
     ];
+    public function parent()
+    {
+        return $this->belongsTo(SoloParents::class, 'parent_id');
+    }
 }

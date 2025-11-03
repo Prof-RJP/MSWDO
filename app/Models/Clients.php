@@ -19,8 +19,23 @@ class Clients extends Model
         'gender',
     ];
 
+    // ✅ Relationship with Barangay
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class, 'brgy_id');
+    }
+
+    // ✅ Relationship with Solo Parent
+    public function soloParent()
+    {
+        return $this->hasOne(SoloParents::class, 'client_id');
+    }
+
+    // ✅ Full name accessor
     public function getFullNameAttribute()
     {
-        return trim("{$this->fname} {$this->mname} {$this->lname}");
+        $middle = $this->mname ? ' ' . $this->mname : '';
+        return trim("{$this->lname}, {$this->fname}{$middle}");
     }
+
 }

@@ -69,7 +69,14 @@
                         <tr class="hover:bg-gray-50 cursor-pointer"
                             onclick="window.location='{{ route('client.edit', $client->id) }}'">
                             <td class="px-4 py-3 uppercase">{{ $client->full_name }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $client->address }}</td>
+                            <td class="px-4 py-3 uppercase">
+                                @foreach ($barangay as $brgy)
+                                    @if ($brgy->id == $client->brgy_id)
+                                        {{ $brgy->barangay }}
+                                    @endif
+                                    
+                                @endforeach
+                            </td>
                         </tr>
                     @empty
                         <tr>

@@ -48,8 +48,8 @@ class ClientsController extends Controller
 
         // Optional accessor for full name in model
         $clients = $query->paginate(20)->appends($request->query());
-
-        return view('admin.clients', compact('clients', 'sortField', 'sortDirection', 'search'));
+        $barangay = Barangay::all();
+        return view('admin.clients', compact('clients', 'sortField', 'sortDirection', 'search', 'barangay'));
     }
     public function create()
     {
