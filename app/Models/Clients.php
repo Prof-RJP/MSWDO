@@ -13,7 +13,7 @@ class Clients extends Model
         'civil_status',
         'occupation',
         'educational_attainment',
-        'address',
+        'brgy_id',
         'birthdate',
         'contact',
         'gender',

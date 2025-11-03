@@ -20,7 +20,7 @@
             @csrf
             @method('PUT')
 
-            <!-- ==========================
+            {{-- <!-- ==========================
      📸 CAMERA CAPTURE SECTION
      ========================== -->
             <div x-data="cameraApp()" <!-- Initialize Alpine.js reactive component -->
@@ -158,7 +158,7 @@
                     }
                 }
             </script>
-
+ --}}
 
             <!-- Names -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">

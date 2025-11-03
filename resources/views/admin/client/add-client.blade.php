@@ -130,9 +130,15 @@
             <!-- Address -->
             <div>
                 <x-input-label for="address" :value="__('Address')" />
-                <x-text-input id="address" name="address" type="text" class="block w-full mt-1"
-                    value="{{ old('address') }}" />
-                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                <select id="address" name="address"
+                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
+                        @foreach ($barangay as $brgy)
+                            <option value="{{ $brgy->id }}">
+                                {{ $brgy->barangay }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
 
             <!-- Occupation -->

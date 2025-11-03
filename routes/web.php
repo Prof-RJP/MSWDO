@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SeniorCetizenController;
+use App\Http\Controllers\SoloParentsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -59,6 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/events/{event}/claims', [ClaimController::class, 'index'])->name('claims.index');
     Route::post('/claims', [ClaimController::class, 'store'])->name('claims.store');
     Route::get('/claims/print/{event}', [ClaimController::class, 'print'])->name('claims.print');
+
+    // Solo Parents
+    Route::get('/soloParents',[SoloParentsController::class, 'show'])->name('admin.soloParents');
+
+
 });
 
 require __DIR__ . '/auth.php';

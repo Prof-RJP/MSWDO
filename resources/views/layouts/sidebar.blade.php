@@ -111,6 +111,27 @@
                 <span>Barangay</span>
             </a>
 
+            <a href="{{ route('admin.soloParents') }}"
+                class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
+                hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
+                dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white
+                {{ request()->routeIs('admin.soloParents')
+                    ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
+                    : 'text-neutral-600 dark:text-neutral-300' }}">
+
+                <!-- Barangay Icon (Solid) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="size-5 shrink-0">
+                    <path
+                        d="M12 2a3 3 0 1 1-3 3 3 3 0 0 1 3-3ZM9 8a4 4 0 0 0-4 4v8.5a1.5 1.5 0 0 0 3 0V18h1v2.5a1.5 1.5 0 0 0 3 0V12a4 4 0 0 0-4-4Z" />
+                    <circle cx="17" cy="9" r="2" />
+                    <path
+                        d="M16 11h2a2 2 0 0 1 2 2v6.5a1.5 1.5 0 0 1-3 0V15h-1v4.5a1.5 1.5 0 0 1-3 0V13a2 2 0 0 1 2-2Z" />
+                </svg>
+
+
+                <span>Solo Parents</span>
+            </a>
+
 
             {{-- <a href=""
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('profile.edit')

@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
+        Schema::create('solo_parents', function (Blueprint $table) {
             $table->id();
-            $table->string('fname');
-            $table->string('mname')->nullable();
-            $table->string('lname');
-            $table->string('civil_status');
-            $table->string('occupation');
-            $table->string('birthdate')->nullable();
-            $table->string('contact');
-            $table->string('gender');
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
             $table->foreignId('brgy_id')->constrained('barangays')->onDelete('cascade');
-            $table->string('educational_attainment');
+            $table->date('applied_date');
+            $table->string('id_no');
+            $table->string('case_no');
+            $table->string('category');
+            $table->string('benefits');
+            $table->date('exp_date');
+            $table->enum('solo_status',['new','renew','expired']);
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::dropIfExists('solo_parents');
     }
 };

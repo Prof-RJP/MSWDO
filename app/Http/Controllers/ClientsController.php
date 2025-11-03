@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientsRequest;
 use App\Models\Aics;
+use App\Models\Barangay;
 use App\Models\Clients;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,8 @@ class ClientsController extends Controller
 
         // Query with optional search filter
         $query = Clients::query();
+        // ->join('barangay', 'clients.brgy_id', '=', 'barangay.id')
+        // ->select('clients.*','barangay.*');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -30,6 +33,11 @@ class ClientsController extends Controller
                   ->orWhere('lname', 'like', "%{$search}%")
                   ->orWhere('address', 'like', "%{$search}%")
                   ->orWhere('contact', 'like', "%{$search}%");
+                //   $q->where('clients.fname', 'like', "%{$search}%")
+                //   ->orWhere('clients.mname', 'like', "%{$search}%")
+                //   ->orWhere('clients.lname', 'like', "%{$search}%")
+                //   ->orWhere('barangay.barangay', 'like', "%{$search}%")
+                //   ->orWhere('clients.contact', 'like', "%{$search}%");
             });
         }
 
@@ -45,7 +53,8 @@ class ClientsController extends Controller
     }
     public function create()
     {
-        return view('admin.client.add-client');
+        $barangay = Barangay::all();
+        return view('admin.client.add-client',compact('barangay'));
     }
     public function store(Request $request)
     {
