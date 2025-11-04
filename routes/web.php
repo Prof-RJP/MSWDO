@@ -8,6 +8,7 @@ use App\Http\Controllers\EventsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SeniorCetizenController;
 use App\Http\Controllers\SoloParentsController;
+use App\Models\SoloParents;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -63,7 +64,10 @@ Route::middleware('auth')->group(function () {
 
     // Solo Parents
     Route::get('/soloParents',[SoloParentsController::class, 'show'])->name('admin.soloParents');
-
+    Route::get('/soloParents/addParent', [SoloParentsController::class, 'create'])->name('soloParents.create');
+    Route::post('/soloParents/addParent/store', [SoloParentsController::class, 'store'])->name('soloparents.store');
+    Route::get('/soloParents/{sp_id}/editParent',[SoloParentsController::class, 'edit'])->name('soloParents.edit');
+    Route::put('/soloParents/{sp_id}/updateParent',[SoloParentsController::class, 'update'])->name('soloParents.update');
 
 });
 

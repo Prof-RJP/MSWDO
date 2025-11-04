@@ -16,4 +16,5 @@ class Childrens extends Model
     {
         return $this->belongsTo(SoloParents::class, 'parent_id');
     }
+
 }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('solo_parents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
-            $table->foreignId('brgy_id')->constrained('barangays')->onDelete('cascade');
             $table->date('applied_date');
             $table->string('id_no');
             $table->string('case_no');

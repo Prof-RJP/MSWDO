@@ -64,7 +64,7 @@ class ClientsController extends Controller
             'lname' => ['required', 'string', 'max:50'],
             'civil_status' => ['required','string','max:50'],
             'occupation' => ['nullable','string','max:100'],
-            'address' => ['required', 'string', 'max:255'],
+            'brgy_id' => ['required'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
             'birthdate' => ['required', 'string', 'max:255'],
@@ -79,7 +79,7 @@ class ClientsController extends Controller
             'civil_status' => $request->civil_status,
             'occupation' => $request->occupation,
             'educational_attainment' => $request->educational_attainment,
-            'address' => $request->address,
+            'brgy_id' => $request->brgy_id,
             'contact' => $request->contact,
             'gender' => $request->gender,
         ]);
@@ -95,7 +95,8 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Clients::findOrFail($id);
-        return view('admin.client.edit-client', compact('client'));
+        $barangay = Barangay::all();
+        return view('admin.client.edit-client', compact('client', 'barangay'));
     }
 
     public function update(Request $request, $id)
@@ -106,7 +107,7 @@ class ClientsController extends Controller
             'lname' => ['required', 'string', 'max:50'],
             'civil_status' => ['required','string','max:50'],
             'occupation' => ['nullable','string','max:100'],
-            'address' => ['required', 'string', 'max:255'],
+            'brgy_id' => ['required'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
             'birthdate' => ['required', 'string', 'max:255'],

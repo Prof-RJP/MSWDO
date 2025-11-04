@@ -129,16 +129,16 @@
 
             <!-- Address -->
             <div>
-                <x-input-label for="address" :value="__('Address')" />
-                <select id="address" name="address"
-                        class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
-                        @foreach ($barangay as $brgy)
-                            <option value="{{ $brgy->id }}">
-                                {{ $brgy->barangay }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                <x-input-label for="brgy_id" :value="__('Barangay')" />
+                <select id="brgy_id" name="brgy_id"
+                    class="w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-green-200 focus:border-green-500">
+                    @foreach ($barangay as $brgy)
+                        <option value="{{ $brgy->id }}">
+                            {{ $brgy->barangay }}
+                        </option>
+                    @endforeach
+                </select>
+                <x-input-error :messages="$errors->get('brgy_id')" class="mt-2" />
             </div>
 
             <!-- Occupation -->
