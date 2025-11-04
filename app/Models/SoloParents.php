@@ -21,7 +21,7 @@ class SoloParents extends Model
 
     public function client()
     {
-        return $this->belongsTo(Clients::class, 'client_id');
+        return $this->belongsTo(Clients::class, 'client_id', 'id');
     }
     public function children()
     {

@@ -20,7 +20,7 @@ class Clients extends Model
     ];
 
     // ✅ Relationship with Barangay
-    public function barangay()
+    public function barangays()
     {
         return $this->belongsTo(Barangay::class, 'brgy_id');
     }

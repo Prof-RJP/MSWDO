@@ -19,7 +19,7 @@ class SoloParentsController extends Controller
             $sortDirection = 'asc';
         }
 
-        $query = SoloParents::with(['clients','barangays']);
+        $query = SoloParents::with(['client']);
 
         // ✅ Search through relationships
         if ($search) {
