@@ -58,6 +58,47 @@ class SeniorCetizenController extends Controller
             'barangay'
         ));
     }
+    public function allSenior(Request $request)
+    {
+        $search = $request->input('search');
+        $sortField = $request->input('sort', 'id');
+        $sortDirection = $request->input('direction', 'desc');
+
+        // Validate direction to avoid invalid inputs
+        if (!in_array($sortDirection, ['asc', 'desc'])) {
+            $sortDirection = 'asc';
+        }
+
+        $query = Seniors::query(); // ✅ eager load
+            // ✅ filter by barangay
+
+        // ✅ Search logic
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('fname', 'like', "%{$search}%")
+                    ->orWhere('mname', 'like', "%{$search}%")
+                    ->orWhere('lname', 'like', "%{$search}%")
+                    ->orWhere('birthdate', 'like', "%{$search}%")
+                    ->orWhere('osca_id', 'like', "%{$search}%");
+            });
+        }
+
+        // ✅ Sorting logic
+        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'birthdate', 'osca_id', 'status'])) {
+            $query->orderBy($sortField, $sortDirection);
+        }
+
+        $seniors = $query->paginate(50)->appends($request->query());
+        $barangay = Barangay::all();
+
+        return view('admin.seniorCetizens.all-seniors', compact(
+            'sortField',
+            'sortDirection',
+            'search',
+            'seniors',
+            'barangay'
+        ));
+    }
 
 
     public function create(Request $request, $brgy_id)

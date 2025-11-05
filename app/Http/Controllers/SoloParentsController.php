@@ -23,12 +23,12 @@ class SoloParentsController extends Controller
 
         // ✅ Search through relationships
         if ($search) {
-            $query->whereHas('clients', function ($q) use ($search) {
+            $query->whereHas('client', function ($q) use ($search) {
                 $q->where('fname', 'like', "%{$search}%")
                     ->orWhere('mname', 'like', "%{$search}%")
                     ->orWhere('lname', 'like', "%{$search}%")
                     ->orWhereHas('barangays', function ($b) use ($search) {
-                        $b->where('name', 'like', "%{$search}%");
+                        $b->where('barangays.barangay', 'like', "%{$search}%");
                     });
             });
         }

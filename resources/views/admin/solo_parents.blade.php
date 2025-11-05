@@ -69,12 +69,12 @@
                         <tr class="hover:bg-gray-50" onclick="window.location='{{ route('soloParents.edit', $sp->id) }}'">
                             <td class="px-4 py-3 uppercase"> {{ $sp->id_no }} </td>
                             <td class="px-4 py-3 uppercase">{{ $sp->client->lname }}, {{ $sp->client->fname }} {{ $sp->client->mname }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $sp->client->barangay->barangay ?? 'N/A' }}</td>
+                            <td class="px-4 py-3 uppercase">{{ $sp->client->barangays->barangay ?? 'N/A' }}</td>
                             <td class="px-4 py-3 uppercase">{{ $sp->solo_status }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center py-6 text-gray-500">No Solo Parents found</td>
+                            <td colspan="4" class="text-center py-6 text-gray-500">No Solo Parents found</td>
                         </tr>
                     @endforelse
                 </tbody>

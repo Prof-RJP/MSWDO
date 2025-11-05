@@ -60,7 +60,7 @@
                             }
                         @endphp
 
-                        <th class="px-4 py-3 text-left">{!! sort_link('full_name', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3 text-left">{!! sort_link('lname', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3 text-left">{!! sort_link('address', 'Address', $sortField ?? '', $sortDirection ?? '') !!}</th>
                     </tr>
                 </thead>
@@ -74,7 +74,7 @@
                                     @if ($brgy->id == $client->brgy_id)
                                         {{ $brgy->barangay }}
                                     @endif
-                                    
+
                                 @endforeach
                             </td>
                         </tr>

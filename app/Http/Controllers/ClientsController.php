@@ -22,17 +22,17 @@ class ClientsController extends Controller
         }
 
         // Query with optional search filter
-        $query = Clients::query();
-        // ->join('barangay', 'clients.brgy_id', '=', 'barangay.id')
-        // ->select('clients.*','barangay.*');
+        $query = Clients::query()
+        ->join('barangays', 'clients.brgy_id', '=', 'barangays.id')
+        ->select('clients.*','barangays.*');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('fname', 'like', "%{$search}%")
-                  ->orWhere('mname', 'like', "%{$search}%")
-                  ->orWhere('lname', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%")
-                  ->orWhere('contact', 'like', "%{$search}%");
+                $q->where('clients.fname', 'like', "%{$search}%")
+                  ->orWhere('clients.mname', 'like', "%{$search}%")
+                  ->orWhere('clients.lname', 'like', "%{$search}%")
+                  ->orWhere('barangays.barangay', 'like', "%{$search}%")
+                  ->orWhere('clients.contact', 'like', "%{$search}%");
                 //   $q->where('clients.fname', 'like', "%{$search}%")
                 //   ->orWhere('clients.mname', 'like', "%{$search}%")
                 //   ->orWhere('clients.lname', 'like', "%{$search}%")
@@ -42,7 +42,7 @@ class ClientsController extends Controller
         }
 
         // Add sorting
-        if (in_array($sortField, ['id', 'fname','mname', 'lname', 'address', 'contact'])) {
+        if (in_array($sortField, ['clients.id', 'fname','mname', 'lname', 'brgy_id', 'contact'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 
