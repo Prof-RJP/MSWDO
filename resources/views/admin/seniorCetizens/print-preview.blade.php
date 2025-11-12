@@ -139,6 +139,9 @@
             </thead>
             <tbody>
                 @foreach ($chunk as $senior)
+                @if ($senior->status == "Active")
+
+
                     <tr>
                         <td>{{ $no++ }}</td>
                         <td class="uppercase text-left pl-3">
@@ -148,6 +151,7 @@
                         <td>{{ \Carbon\Carbon::parse($senior->birthdate)->format('m/d/Y') }}</td>
                         <td></td>
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

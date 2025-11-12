@@ -23,26 +23,29 @@ class ClientsController extends Controller
 
         // Query with optional search filter
         $query = Clients::query()
-        ->join('barangays', 'clients.brgy_id', '=', 'barangays.id')
-        ->select('clients.*','barangays.*');
+            ->join('barangays', 'clients.brgy_id', '=', 'barangays.id')
+            ->select(
+                'clients.id as client_id',
+                'clients.fname',
+                'clients.mname',
+                'clients.lname',
+                'clients.contact',
+                'clients.brgy_id',
+                'barangays.barangay'
+            );
 
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('clients.fname', 'like', "%{$search}%")
-                  ->orWhere('clients.mname', 'like', "%{$search}%")
-                  ->orWhere('clients.lname', 'like', "%{$search}%")
-                  ->orWhere('barangays.barangay', 'like', "%{$search}%")
-                  ->orWhere('clients.contact', 'like', "%{$search}%");
-                //   $q->where('clients.fname', 'like', "%{$search}%")
-                //   ->orWhere('clients.mname', 'like', "%{$search}%")
-                //   ->orWhere('clients.lname', 'like', "%{$search}%")
-                //   ->orWhere('barangay.barangay', 'like', "%{$search}%")
-                //   ->orWhere('clients.contact', 'like', "%{$search}%");
+                    ->orWhere('clients.mname', 'like', "%{$search}%")
+                    ->orWhere('clients.lname', 'like', "%{$search}%")
+                    ->orWhere('barangays.barangay', 'like', "%{$search}%")
+                    ->orWhere('clients.contact', 'like', "%{$search}%");
             });
         }
 
         // Add sorting
-        if (in_array($sortField, ['clients.id', 'fname','mname', 'lname', 'brgy_id', 'contact'])) {
+        if (in_array($sortField, ['client_id', 'fname', 'mname', 'lname', 'brgy_id', 'contact'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 
@@ -54,7 +57,7 @@ class ClientsController extends Controller
     public function create()
     {
         $barangay = Barangay::all();
-        return view('admin.client.add-client',compact('barangay'));
+        return view('admin.client.add-client', compact('barangay'));
     }
     public function store(Request $request)
     {
@@ -62,13 +65,13 @@ class ClientsController extends Controller
             'fname' => ['required', 'string', 'max:50'],
             'mname' => ['nullable', 'string', 'max:50'],
             'lname' => ['required', 'string', 'max:50'],
-            'civil_status' => ['required','string','max:50'],
-            'occupation' => ['nullable','string','max:100'],
+            'civil_status' => ['required', 'string', 'max:50'],
+            'occupation' => ['nullable', 'string', 'max:100'],
             'brgy_id' => ['required'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
             'birthdate' => ['required', 'string', 'max:255'],
-            'educational_attainment' => ['nullable','string','max:100'],
+            'educational_attainment' => ['nullable', 'string', 'max:100'],
         ]);
 
         Clients::create([
@@ -105,13 +108,13 @@ class ClientsController extends Controller
             'fname' => ['required', 'string', 'max:50'],
             'mname' => ['nullable', 'string', 'max:50'],
             'lname' => ['required', 'string', 'max:50'],
-            'civil_status' => ['required','string','max:50'],
-            'occupation' => ['nullable','string','max:100'],
+            'civil_status' => ['required', 'string', 'max:50'],
+            'occupation' => ['nullable', 'string', 'max:100'],
             'brgy_id' => ['required'],
             'contact' => ['required', 'string', 'max:20'],
             'gender' => ['required', 'string', 'max:255'],
             'birthdate' => ['required', 'string', 'max:255'],
-            'educational_attainment' => ['nullable','string','max:100'],
+            'educational_attainment' => ['nullable', 'string', 'max:100'],
 
         ]);
 

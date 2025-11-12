@@ -42,7 +42,7 @@ class SeniorCetizenController extends Controller
         }
 
         // ✅ Sorting logic
-        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'birthdate', 'osca_id', 'status'])) {
+        if (in_array($sortField, ['client_id', 'brgy_id', 'fname', 'mname', 'lname', 'birthdate', 'osca_id', 'status'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 
@@ -79,12 +79,13 @@ class SeniorCetizenController extends Controller
                     ->orWhere('mname', 'like', "%{$search}%")
                     ->orWhere('lname', 'like', "%{$search}%")
                     ->orWhere('birthdate', 'like', "%{$search}%")
+                    ->orWhere('brgy_id', 'like', "%{$search}%")
                     ->orWhere('osca_id', 'like', "%{$search}%");
             });
         }
 
         // ✅ Sorting logic
-        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'birthdate', 'osca_id', 'status'])) {
+        if (in_array($sortField, ['id', 'brgy_id', 'fname', 'mname', 'lname', 'brgy_id', 'birthdate', 'osca_id', 'status'])) {
             $query->orderBy($sortField, $sortDirection);
         }
 

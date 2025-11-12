@@ -38,7 +38,12 @@
 
     <div class="m-5 p-5 bg-white shadow-md rounded-md">
         <div class="flex items-center justify-between mb-4">
-
+            <div>
+                <h1 class="font-bold text-2xl">
+                    All Barangays in San Quintin, Pangasinan
+                </h1>
+                <p class="italic text-gray-500">Manage and update senior cetizens information.</p>
+            </div>
 
             <!-- Search Form -->
             <form method="GET" action="{{ route('senior.all') }}"
@@ -66,6 +71,7 @@
                         <th class="px-4 py-3">{!! sort_link('osca_id', 'OSCA ID', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('lname', 'Full Name', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('birthdate', 'Birthdate', $sortField ?? '', $sortDirection ?? '') !!}</th>
+                        <th class="px-4 py-3">{!! sort_link('brgy_id', 'Barangay', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('status', 'Status', $sortField ?? '', $sortDirection ?? '') !!}</th>
                         <th class="px-4 py-3">{!! sort_link('action', 'Action', $sortField ?? '', $sortDirection ?? '') !!}</th>
                     </tr>

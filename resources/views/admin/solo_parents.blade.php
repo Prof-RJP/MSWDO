@@ -51,7 +51,8 @@
                 <thead class="bg-gray-100 text-gray-700">
                     <tr>
                         @php
-                            function sort_link($column, $label, $sort, $direction) {
+                            function sort_link($column, $label, $sort, $direction)
+                            {
                                 $newDir = $sort === $column && $direction === 'asc' ? 'desc' : 'asc';
                                 $arrow = $sort === $column ? ($direction === 'asc' ? '↑' : '↓') : '';
                                 return "<a href='?sort={$column}&direction={$newDir}' class='flex items-center font-bold'>{$label} {$arrow}</a>";
@@ -66,11 +67,30 @@
                 </thead>
                 <tbody class="divide-y">
                     @forelse ($clients as $sp)
-                        <tr class="hover:bg-gray-50" onclick="window.location='{{ route('soloParents.edit', $sp->id) }}'">
+                        <tr class="hover:bg-gray-50 cursor-pointer"
+                            onclick="window.location='{{ route('soloParents.edit', $sp->id) }}'">
                             <td class="px-4 py-3 uppercase"> {{ $sp->id_no }} </td>
-                            <td class="px-4 py-3 uppercase">{{ $sp->client->lname }}, {{ $sp->client->fname }} {{ $sp->client->mname }}</td>
+                            <td class="px-4 py-3 uppercase">{{ $sp->client->lname }}, {{ $sp->client->fname }}
+                                {{ $sp->client->mname }}</td>
                             <td class="px-4 py-3 uppercase">{{ $sp->client->barangays->barangay ?? 'N/A' }}</td>
-                            <td class="px-4 py-3 uppercase">{{ $sp->solo_status }}</td>
+
+                            @if ($sp->solo_status == 'new')
+                                <td class="px-4 py-3 uppercase text-center font-bold bg-green-400 text-green-900 rounded-lg">
+                                    <span
+                                        class="">{{ $sp->solo_status }}</span>
+                                </td>
+                            @elseif ($sp->solo_status == 'renew')
+                                <td class="px-4 py-3 uppercase text-center font-bold bg-blue-400 text-blue-900 rounded-lg">
+                                    <span
+                                        class="">{{ $sp->solo_status }}</span>
+                                </td>
+                            @elseif ($sp->solo_status == 'expired')
+                                <td class="px-4 py-3 uppercase text-center font-bold bg-red-400 text-red-900 rounded-lg">
+                                    <span
+                                        class="">{{ $sp->solo_status }}</span>
+                                </td>
+                            @endif
+
                         </tr>
                     @empty
                         <tr>

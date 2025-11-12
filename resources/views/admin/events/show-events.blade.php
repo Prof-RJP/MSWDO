@@ -85,7 +85,7 @@
             $celCount = $activeCelebrants->count();
 
             // Count total active celebrants
-            $totalCelebrants = $celCount - $deceased;
+            $totalCelebrants = $celCount;
 
             // Count claimed among the filtered ones
             $claimedCount = $activeCelebrants
