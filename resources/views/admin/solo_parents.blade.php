@@ -40,6 +40,14 @@
             </div>
 
             <form method="GET" action="{{ route('admin.soloParents') }}" class="flex items-center space-x-2">
+                <select name="barangay" class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
+                    <option value="">All Barangays</option>
+                    @foreach ($barangays as $b)
+                        <option value="{{ $b->id }}" {{ request('barangay') == $b->id ? 'selected' : '' }}>
+                            {{ strtoupper($b->barangay) }}
+                        </option>
+                    @endforeach
+                </select>
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search client..."
                     class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
                 <button type="submit" class="bg-green-700 text-white px-3 py-1 rounded-lg">Search</button>
@@ -75,19 +83,19 @@
                             <td class="px-4 py-3 uppercase">{{ $sp->client->barangays->barangay ?? 'N/A' }}</td>
 
                             @if ($sp->solo_status == 'new')
-                                <td class="px-4 py-3 uppercase text-center font-bold bg-green-400 text-green-900 rounded-lg">
-                                    <span
-                                        class="">{{ $sp->solo_status }}</span>
+                                <td
+                                    class="px-4 py-3 uppercase text-center font-bold bg-green-400 text-green-900 rounded-lg">
+                                    <span class="">{{ $sp->solo_status }}</span>
                                 </td>
                             @elseif ($sp->solo_status == 'renew')
-                                <td class="px-4 py-3 uppercase text-center font-bold bg-blue-400 text-blue-900 rounded-lg">
-                                    <span
-                                        class="">{{ $sp->solo_status }}</span>
+                                <td
+                                    class="px-4 py-3 uppercase text-center font-bold bg-blue-400 text-blue-900 rounded-lg">
+                                    <span class="">{{ $sp->solo_status }}</span>
                                 </td>
                             @elseif ($sp->solo_status == 'expired')
-                                <td class="px-4 py-3 uppercase text-center font-bold bg-red-400 text-red-900 rounded-lg">
-                                    <span
-                                        class="">{{ $sp->solo_status }}</span>
+                                <td
+                                    class="px-4 py-3 uppercase text-center font-bold bg-red-400 text-red-900 rounded-lg">
+                                    <span class="">{{ $sp->solo_status }}</span>
                                 </td>
                             @endif
 

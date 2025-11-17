@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barangay;
 use App\Models\Childrens;
 use App\Models\Clients;
 use App\Models\SoloParents;
@@ -13,11 +14,14 @@ class SoloParentsController extends Controller
     {
         $search = $request->input('search');
         $sortField = $request->input('sort', 'id');
-        $sortDirection = $request->input('direction', 'asc');
+        $filterBarangay = $request->input('barangay');
+        $sortDirection = $request->input('direction', 'desc');
 
         if (!in_array($sortDirection, ['asc', 'desc'])) {
             $sortDirection = 'asc';
         }
+
+        $barangays = Barangay::orderBy('barangay', 'asc')->get();
 
         $query = SoloParents::with(['client']);
 
@@ -30,6 +34,12 @@ class SoloParentsController extends Controller
                     ->orWhereHas('barangays', function ($b) use ($search) {
                         $b->where('barangays.barangay', 'like', "%{$search}%");
                     });
+            });
+        }
+
+        if ($filterBarangay) {
+            $query->whereHas('client', function ($q) use ($filterBarangay) {
+                $q->where('brgy_id', $filterBarangay);
             });
         }
 
@@ -49,9 +59,9 @@ class SoloParentsController extends Controller
         }
 
         // ✅ Use automatic pagination (no manual)
-        $clients = $query->paginate(20)->appends($request->query());
+        $clients = $query->paginate(50)->appends($request->query());
 
-        return view('admin.solo_parents', compact('clients', 'sortField', 'search', 'sortDirection'));
+        return view('admin.solo_parents', compact('clients', 'sortField', 'filterBarangay', 'search', 'barangays', 'sortDirection'));
     }
 
     public function create()
@@ -96,56 +106,58 @@ class SoloParentsController extends Controller
         return redirect()->route('admin.soloParents')->with('success', 'Solo Parent added successfully!');
     }
 
-    public function edit($sp_id){
-        $soloParent = SoloParents::with('client','children')->findOrFail($sp_id);
+    public function edit($sp_id)
+    {
+        $soloParent = SoloParents::with('client', 'children')->findOrFail($sp_id);
         $clients = Clients::all();
 
         return view('admin.soloParents.edit-parent', compact('soloParent', 'clients'));
     }
-    public function update(Request $request,$sp_id){
+    public function update(Request $request, $sp_id)
+    {
         // ✅ Validate main fields + children fields
-    $request->validate([
-        'id_no' => 'required|numeric',
-        'client_id' => 'required|numeric',
-        'case_no' => 'required|numeric',
-        'applied_date' => 'required|date',
-        'exp_date' => 'required|date',
-        'category' => 'required|string',
-        'benefits' => 'required|string',
-        'solo_status' => 'required|string|max:10',
-        'children.*.name' => 'required|string',
-        'children.*.birthdate' => 'required|date',
-    ]);
-
-    // ✅ Get the existing record
-    $soloParent = SoloParents::findOrFail($sp_id);
-
-    // ✅ Update solo parent record
-    $soloParent->update([
-        'id_no' => $request->id_no,
-        'case_no' => $request->case_no,
-        'client_id' => $request->client_id,
-        'applied_date' => $request->applied_date,
-        'exp_date' => $request->exp_date,
-        'category' => $request->category,
-        'benefits' => $request->benefits,
-        'solo_status' => $request->solo_status,
-    ]);
-
-    // ✅ DELETE old children first (simple approach)
-    Childrens::where('parent_id', $soloParent->id)->delete();
-
-    // ✅ LOOP new children input and insert them again
-    foreach ($request->children as $child) {
-        Childrens::create([
-            'parent_id' => $soloParent->id,  // link to parent
-            'name' => $child['name'],
-            'birthdate' => $child['birthdate'],
+        $request->validate([
+            'id_no' => 'required|numeric',
+            'client_id' => 'required|numeric',
+            'case_no' => 'required|numeric',
+            'applied_date' => 'required|date',
+            'exp_date' => 'required|date',
+            'category' => 'required|string',
+            'benefits' => 'required|string',
+            'solo_status' => 'required|string|max:10',
+            'children.*.name' => 'required|string',
+            'children.*.birthdate' => 'required|date',
         ]);
-    }
 
-    // ✅ Redirect back with success message
-    return redirect()->route('admin.soloParents')
-        ->with('success', 'Solo Parent updated successfully!');
+        // ✅ Get the existing record
+        $soloParent = SoloParents::findOrFail($sp_id);
+
+        // ✅ Update solo parent record
+        $soloParent->update([
+            'id_no' => $request->id_no,
+            'case_no' => $request->case_no,
+            'client_id' => $request->client_id,
+            'applied_date' => $request->applied_date,
+            'exp_date' => $request->exp_date,
+            'category' => $request->category,
+            'benefits' => $request->benefits,
+            'solo_status' => $request->solo_status,
+        ]);
+
+        // ✅ DELETE old children first (simple approach)
+        Childrens::where('parent_id', $soloParent->id)->delete();
+
+        // ✅ LOOP new children input and insert them again
+        foreach ($request->children as $child) {
+            Childrens::create([
+                'parent_id' => $soloParent->id,  // link to parent
+                'name' => $child['name'],
+                'birthdate' => $child['birthdate'],
+            ]);
+        }
+
+        // ✅ Redirect back with success message
+        return redirect()->route('admin.soloParents')
+            ->with('success', 'Solo Parent updated successfully!');
     }
 }
