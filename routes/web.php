@@ -69,6 +69,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/soloParents/addParent/store', [SoloParentsController::class, 'store'])->name('soloparents.store');
     Route::get('/soloParents/{sp_id}/editParent',[SoloParentsController::class, 'edit'])->name('soloParents.edit');
     Route::put('/soloParents/{sp_id}/updateParent',[SoloParentsController::class, 'update'])->name('soloParents.update');
+    Route::get('/soloParents/print', [SoloParentsController::class, 'print'])->name('soloParents.print');
+
 
 });
 

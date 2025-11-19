@@ -160,4 +160,34 @@ class SoloParentsController extends Controller
         return redirect()->route('admin.soloParents')
             ->with('success', 'Solo Parent updated successfully!');
     }
+
+    public function print(Request $request)
+{
+    $search = $request->input('search');
+    $barangay = $request->input('barangay');
+
+    $clients = SoloParents::with(['client', 'client.barangays'])
+        // Join clients table so we can sort by barangay
+        ->join('clients', 'solo_parents.client_id', '=', 'clients.id')
+        ->select('solo_parents.*')
+
+        ->when($barangay, function ($query, $barangay) {
+            return $query->where('clients.brgy_id', $barangay);
+        })
+
+        ->when($search, function ($query, $search) {
+            return $query->where(function ($q) use ($search) {
+                $q->where('clients.lname', 'like', "%$search%")
+                    ->orWhere('clients.fname', 'like', "%$search%");
+            });
+        })
+
+        // SORT BY BARANGAY ID
+        ->orderBy('clients.brgy_id', 'asc')
+
+        ->get();
+
+    return view('admin.soloParents.print-solo-preview', compact('clients'));
+}
+
 }

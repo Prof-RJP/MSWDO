@@ -6,7 +6,7 @@
                     toast: true,
                     position: "top-end",
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 500,
                     timerProgressBar: true,
                     didOpen: (toast) => {
                         toast.onmouseenter = Swal.stopTimer;
@@ -48,9 +48,21 @@
                         </option>
                     @endforeach
                 </select>
+
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search client..."
                     class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
                 <button type="submit" class="bg-green-700 text-white px-3 py-1 rounded-lg">Search</button>
+
+                <a href="{{ route('soloParents.print', [
+                    'barangay' => request('barangay'),
+                    'search' => request('search'),
+                ]) }}"
+                    target="_blank"
+                    class="bg-blue-700 text-white px-3 py-1 rounded-lg hover:bg-blue-800 flex items-center space-x-1">
+                    <i class="fas fa-print"></i>
+                    <span>Print</span>
+                </a>
+
             </form>
         </div>
 
