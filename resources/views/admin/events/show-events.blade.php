@@ -152,7 +152,7 @@
                                         {{ $senior->lname }}, {{ $senior->fname }} {{ $senior->mname ?? '' }}
                                     </td>
                                     <td class="px-4 py-3">
-                                        {{ \Carbon\Carbon::parse($senior->birthdate)->format('F d') }}
+                                        {{ \Carbon\Carbon::parse($senior->birthdate)->format('F d, Y') }}
                                     </td>
                                     <td class="px-4 py-3">{{ $senior->age }}</td>
                                     <td class="px-4 py-3 text-center">
