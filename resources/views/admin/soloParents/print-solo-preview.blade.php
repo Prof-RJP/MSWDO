@@ -132,6 +132,7 @@
                     <th class="text-lg">ID No.</th>
                     <th class="text-lg">Name</th>
                     <th class="text-lg">Barangay</th>
+                    <th class="text-lg">Birthdate</th>
                 </tr>
             </thead>
             <tbody>
@@ -143,6 +144,8 @@
                             {{ $sp->client->lname }}, {{ $sp->client->fname }} {{ $sp->client->mname ?? '' }}
                         </td>
                         <td>{{ $sp->client->barangays->barangay ?? 'N/A' }}</td>
+
+                        <td>{{ \Carbon\Carbon::parse($sp->client->birthdate)->format('m/d/Y') }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -175,7 +178,7 @@
             <div class="page-break"></div>
         @endif
     @endforeach
-    <div class="">
+    <div class="flex justify-between items-center">
         <div>
             Prepared by:
             <div class="flex flex-row items-center justify-between">
