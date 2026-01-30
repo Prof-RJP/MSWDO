@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class SoloParents extends Model
 {
@@ -26,5 +27,17 @@ class SoloParents extends Model
     public function children()
     {
         return $this->hasMany(Childrens::class, 'parent_id', 'id');
+    }
+    public function getIsExpiredAttribute()
+    {
+        return Carbon::today()->gt(Carbon::parse($this->exp_date));
+    }
+    public function getComputedStatusAttribute()
+    {
+        if ($this->is_expired) {
+            return 'expired';
+        }
+
+        return $this->solo_status; // new / renew
     }
 }

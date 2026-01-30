@@ -33,6 +33,7 @@
     </x-slot>
 
     <div class="m-5 p-5 bg-white shadow-md rounded-md">
+
         <div class="flex items-center justify-between mb-4">
             <div>
                 <h1 class="font-bold text-2xl">Solo Parent Page</h1>
@@ -40,6 +41,14 @@
             </div>
 
             <form method="GET" action="{{ route('admin.soloParents') }}" class="flex items-center space-x-2">
+                <select name="year">
+                    <option value="">All Years</option>
+                    @for ($y = now()->year; $y >= 2015; $y--)
+                        <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>
+                            {{ $y }}
+                        </option>
+                    @endfor
+                </select>
                 <select name="barangay" class="border rounded-lg px-3 py-1 focus:ring focus:ring-green-200">
                     <option value="">All Barangays</option>
                     @foreach ($barangays as $b)
@@ -56,6 +65,7 @@
                 <a href="{{ route('soloParents.print', [
                     'barangay' => request('barangay'),
                     'search' => request('search'),
+                    'year' => request('year'),
                 ]) }}"
                     target="_blank"
                     class="bg-blue-700 text-white px-3 py-1 rounded-lg hover:bg-blue-800 flex items-center space-x-1">

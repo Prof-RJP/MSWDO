@@ -121,7 +121,9 @@
 
         <div class="text-center mb-2">
             <div class="capitalize text-3xl">SOLO PARENT LIST</div>
-            <div class="capitalize text-normal italic">Year 2025</div>
+            <div class="capitalize text-normal italic">
+    Year {{ $year ?? now()->year }}
+</div>
         </div>
 
         <!-- TABLE -->

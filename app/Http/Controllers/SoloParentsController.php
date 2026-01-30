@@ -16,6 +16,8 @@ class SoloParentsController extends Controller
         $sortField = $request->input('sort', 'id');
         $filterBarangay = $request->input('barangay');
         $sortDirection = $request->input('direction', 'desc');
+        $filterYear = $request->input('year');
+
 
         if (!in_array($sortDirection, ['asc', 'desc'])) {
             $sortDirection = 'asc';
@@ -24,6 +26,14 @@ class SoloParentsController extends Controller
         $barangays = Barangay::orderBy('barangay', 'asc')->get();
 
         $query = SoloParents::with(['client']);
+
+        if ($filterYear) {
+            $query->whereBetween(
+                'solo_parents.applied_date',
+                ["{$filterYear}-01-01", "{$filterYear}-12-31"]
+            );
+        }
+
 
         // ✅ Search through relationships
         if ($search) {
@@ -61,7 +71,7 @@ class SoloParentsController extends Controller
         // ✅ Use automatic pagination (no manual)
         $clients = $query->paginate(50)->appends($request->query());
 
-        return view('admin.solo_parents', compact('clients', 'sortField', 'filterBarangay', 'search', 'barangays', 'sortDirection'));
+        return view('admin.solo_parents', compact('clients', 'sortField', 'filterYear', 'filterBarangay', 'search', 'barangays', 'sortDirection'));
     }
 
     public function create()
@@ -162,32 +172,43 @@ class SoloParentsController extends Controller
     }
 
     public function print(Request $request)
-{
-    $search = $request->input('search');
-    $barangay = $request->input('barangay');
+    {
+        $search = $request->input('search');
+        $barangay = $request->input('barangay');
+        $year = $request->input('year'); // ✅ YEAR
 
-    $clients = SoloParents::with(['client', 'client.barangays'])
-        // Join clients table so we can sort by barangay
-        ->join('clients', 'solo_parents.client_id', '=', 'clients.id')
-        ->select('solo_parents.*')
+        $clients = SoloParents::with(['client', 'client.barangays'])
 
-        ->when($barangay, function ($query, $barangay) {
-            return $query->where('clients.brgy_id', $barangay);
-        })
+            // Join clients table so we can sort & filter
+            ->join('clients', 'solo_parents.client_id', '=', 'clients.id')
+            ->select('solo_parents.*')
 
-        ->when($search, function ($query, $search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('clients.lname', 'like', "%$search%")
-                    ->orWhere('clients.fname', 'like', "%$search%");
-            });
-        })
+            // Barangay filter
+            ->when($barangay, function ($query, $barangay) {
+                return $query->where('clients.brgy_id', $barangay);
+            })
 
-        // SORT BY BARANGAY ID
-        ->orderBy('clients.brgy_id', 'asc')
+            // Search filter
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('clients.lname', 'like', "%$search%")
+                        ->orWhere('clients.fname', 'like', "%$search%");
+                });
+            })
 
-        ->get();
+            // ✅ YEAR filter
+            ->when($year, function ($query, $year) {
+                return $query->whereYear('solo_parents.applied_date', $year);
+            })
 
-    return view('admin.soloParents.print-solo-preview', compact('clients'));
-}
+            // Sort by barangay
+            ->orderBy('clients.brgy_id', 'asc')
 
+            ->get();
+
+        return view(
+            'admin.soloParents.print-solo-preview',
+            compact('clients', 'year') // ✅ pass year to view
+        );
+    }
 }
