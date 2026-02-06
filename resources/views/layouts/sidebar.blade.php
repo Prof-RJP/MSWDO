@@ -46,7 +46,7 @@
                 </svg>
                 <span>Client</span>
             </a>
-            <a href="{{ route('admin.AICS') }}"
+            {{-- <a href="{{ route('admin.AICS') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white {{ request()->routeIs('admin.AICS')
                     ? 'text-neutral-900 bg-black/5 dark:text-white dark:bg-white/5'
                     : 'text-neutral-600 dark:text-neutral-300' }}">
@@ -57,7 +57,7 @@
                         clip-rule="evenodd" />
                 </svg>
                 <span>AICS</span>
-            </a>
+            </a> --}}
             <a href="{{ route('admin.senior') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
                     hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
@@ -93,7 +93,7 @@
                 <span>Events</span>
             </a>
 
-            <a href="{{ route('admin.barangay') }}"
+            {{-- <a href="{{ route('admin.barangay') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
                 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden
                 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white
@@ -109,7 +109,7 @@
                 </svg>
 
                 <span>Barangay</span>
-            </a>
+            </a> --}}
 
             <a href="{{ route('admin.soloParents') }}"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2
@@ -160,7 +160,7 @@
                 <span>Profile</span>
             </a>
 
-            <a href="#"
+            {{-- <a href="#"
                 class="flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium text-neutral-600 underline-offset-2 hover:bg-black/5 hover:text-neutral-900 focus-visible:underline focus:outline-hidden dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 shrink-0"
                     aria-hidden="true">
@@ -169,7 +169,7 @@
                         clip-rule="evenodd" />
                 </svg>
                 <span>Settings</span>
-            </a>
+            </a> --}}
         </div>
     </nav>
 
